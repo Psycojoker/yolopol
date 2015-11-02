@@ -12,3 +12,13 @@ before_script:
 script:
   - ./manage.py migrate
   - node_modules/gulp/bin/gulp.js less
+deploy:
+  provider: openshift
+  user: jamespic@gmail.com
+  password:
+    secure: W7hQDKAtmpOfwLjBuss6NEKqPSrRhsbgH8a8eV+/Oo6HZxMi1mbNFSi+6WRNSs3Cil0ZZV+awoqC61jIzV4oTwEYcy5bv9NWNSY1QO34DECMS5sY00wA0zKhkdsdTr9Pc3TLRp1cw6x2KNCF356FKZojFTRbjtfJ79rqBc5k5ww=
+  app: dev
+  domain: memopol
+  on:
+    repo: political-memory/political_memory
+    branch: openshift

@@ -1,0 +1,8 @@
+#!/bin/bash
+set -x
+
+source ${OPENSHIFT_HOMEDIR}app-root/runtime/dependencies/python/virtenv/bin/activate
+
+python ${OPENSHIFT_REPO_DIR}manage.py parltrack_import_representatives
+python ${OPENSHIFT_REPO_DIR}manage.py parltrack_import_dossiers
+python ${OPENSHIFT_REPO_DIR}manage.py import_parltrack_all_votes
