@@ -44,7 +44,7 @@ class MemopolRepresentative(Representative):
         self.score = score
         self.save()
 
-    def update_country(self):
+    def update_country(self, save=True):
         # Create a country if it does'nt exist
         # The representative's country is the one associated
         # with the last 'country' mandate
@@ -60,7 +60,9 @@ class MemopolRepresentative(Representative):
             self.country = country
         except ObjectDoesNotExist:
             self.country = None
-        self.save()
+
+        if save:
+            self.save()
 
     def update_main_mandate(self):
         try:
@@ -97,4 +99,5 @@ class MemopolRepresentative(Representative):
 @receiver(post_save, sender=Representative)
 def create_memopolrepresentative_from_representative(instance, **kwargs):
     memopol_representative = create_child_instance_from_parent(MemopolRepresentative, instance)
+    memopol_representative.update_country(save=False)
     memopol_representative.save()
