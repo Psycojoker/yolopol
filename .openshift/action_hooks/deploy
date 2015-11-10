@@ -19,8 +19,6 @@ find $OPENSHIFT_REPO_DIR -name manage.py
 
 python ${OPENSHIFT_REPO_DIR}manage.py migrate --noinput
 
-python ${OPENSHIFT_REPO_DIR}manage.py collectstatic --noinput
-
 if [ ! -d $OPENSHIFT_DATA_DIR/media ]; then
     mkdir $OPENSHIFT_DATA_DIR/media
 fi
