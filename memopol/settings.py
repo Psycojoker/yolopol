@@ -37,8 +37,17 @@ TEMPLATE_DEBUG = DEBUG
 if SECRET_KEY == 'notsecret' and not DEBUG:
     raise Exception('Please export DJANGO_SECRET_KEY or DEBUG')
 
+from socket import gethostname
+ALLOWED_HOSTS = [
+    gethostname(),
+]
+
+DNS = os.environ.get('OPENSHIFT_APP_DNS', None),
+if DNS:
+    ALLOWED_HOSTS += DNS
+
 if 'DJANGO_ALLOWED_HOSTS' in os.environ:
-    ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split(',')
+    ALLOWED_HOSTS += os.environ.get('DJANGO_ALLOWED_HOSTS').split(',')
 
 REDIS_DB = os.environ.get('REDIS_DB', 1)
 ORGANIZATION_NAME = os.environ.get('ORGANIZATION', 'Memopol Demo')
