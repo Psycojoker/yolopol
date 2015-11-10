@@ -233,9 +233,9 @@ LOGGING = {
 
 CONSTANCE_BACKEND = 'constance.backends.redisd.RedisBackend'
 CONSTANCE_REDIS_CONNECTION = {
-    'host': 'localhost',
-    'port': 6379,
-    'db': 0,
+    'host': os.environ.get('OPENSHIFT_REDIS_HOST', 'localhost'),
+    'port': os.environ.get('OPENSHIFT_REDIS_PORT', 6379),
+    'db': 1,
 }
 
 CONSTANCE_CONFIG = {
