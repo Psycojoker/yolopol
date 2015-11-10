@@ -4,15 +4,7 @@ core/static/libs/*
 deploy
 
 # libs
-static/libs
 node_modules
-
-# compiled css
-static/stylesheets/*.min.css
-
-
-# settings 
-memopol/config.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
