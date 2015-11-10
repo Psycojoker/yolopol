@@ -1,7 +1,6 @@
 *.sqlite3
 celerybeat-*
 core/static/libs/*
-deploy
 
 # libs
 node_modules
