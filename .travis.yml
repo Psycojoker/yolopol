@@ -16,6 +16,10 @@ script:
 - node_modules/gulp/bin/gulp.js less
 before_deploy:
 - ./manage.py collectstatic --noinput
+- git config --global user.email 'bot@travis-ci.com'
+- git config --global user.name 'Bot - Travis CI'
+- git add -f wsgi
+- git commit -am 'Travis Build'
 deploy:
   provider: openshift
   user: jamespic@gmail.com
