@@ -212,6 +212,10 @@ LOGGING = {
         },
     },
     'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG'
+        },
         'memopol': {
             'handlers': ['console', 'file'],
             'level': 'DEBUG'
