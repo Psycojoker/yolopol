@@ -1,12 +1,25 @@
 #!/bin/bash
 set -x
 
+cmd=$1
+
+if [ -z "$cmd" ]; then
+    ${OPENSHIFT_REPO_DIR}.openshift/cron/daily/update_database representatives
+    ${OPENSHIFT_REPO_DIR}.openshift/cron/daily/update_database dossiers
+    exit 0
+fi
+
+[ $cmd = representatives ] && file=ep_meps_current.json.xz
+[ $cmd = dossiers ] && file=ep_dossiers.json.xz
+
 source ${OPENSHIFT_HOMEDIR}app-root/runtime/dependencies/python/virtenv/bin/activate
 
-cd ${OPENSHIFT_DATA_DIR}
-rm -rf ep_meps_current.json.xz
-wget http://parltrack.euwiki.org/dumps/ep_meps_current.json.xz
+pushd ${OPENSHIFT_DATA_DIR}
+    rm -rf $file  # ensure daily
+    wget http://parltrack.euwiki.org/dumps/$file || exit 1
 
-cd ${OPENSHIFT_REPO_DIR}
-export DJANGO_SETTINGS_MODULE=memopol.settings
-unxz -c ${OPENSHIFT_DATA_DIR}ep_meps_current.json.xz | parltrack_import_representatives
+    cd ${OPENSHIFT_REPO_DIR}
+    export DJANGO_SETTINGS_MODULE=memopol.settings
+    unxz -c ${OPENSHIFT_DATA_DIR}$file | parltrack_import_$cmd
+    rm -rf $file
+popd

@@ -96,6 +96,14 @@ if DEBUG:
         'debug_toolbar',
     )
 
+RAVEN_FILE = os.path.join(DATA_DIR, 'sentry')
+if os.path.exists(RAVEN_FILE):
+    INSTALLED_APPS += ('raven.contrib.django.raven_compat',)
+    with open(RAVEN_FILE, 'r') as f:
+        RAVEN_CONFIG = {
+            'dsn': f.read()
+        }
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
