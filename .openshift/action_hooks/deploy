@@ -25,6 +25,12 @@ fi
 popd
 
 pushd ${OPENSHIFT_REPO_DIR}
+if [ -f ${OPENSHIFT_DATA_DIR}sentry ]; then
+    ./manage.py raven test
+else
+    echo ${OPENSHIFT_DATA_DIR}sentry does not exist, not setting up raven.
+fi
+
 PATH="${OPENSHIFT_DATA_DIR}node/bin:$PATH"
 HOME=$OPENSHIFT_DATA_DIR
 CI=true
