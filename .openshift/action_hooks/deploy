@@ -9,6 +9,8 @@ source ${OPENSHIFT_HOMEDIR}app-root/runtime/dependencies/python/virtenv/bin/acti
 
 cat ${OPENSHIFT_REPO_DIR}requirements.txt
 
+pip install -U pip
+
 pip install -r ${OPENSHIFT_REPO_DIR}requirements.txt
 
 # We don't have sentry yet
@@ -26,6 +28,7 @@ popd
 
 pushd ${OPENSHIFT_REPO_DIR}
 if [ -f ${OPENSHIFT_DATA_DIR}sentry ]; then
+    pip install raven
     ./manage.py raven test
 else
     echo ${OPENSHIFT_DATA_DIR}sentry does not exist, not setting up raven.
