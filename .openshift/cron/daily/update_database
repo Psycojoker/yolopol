@@ -6,11 +6,13 @@ cmd=$1
 if [ -z "$cmd" ]; then
     ${OPENSHIFT_REPO_DIR}.openshift/cron/daily/update_database representatives
     ${OPENSHIFT_REPO_DIR}.openshift/cron/daily/update_database dossiers
+    ${OPENSHIFT_REPO_DIR}.openshift/cron/daily/update_database votes
     exit 0
 fi
 
 [ $cmd = representatives ] && file=ep_meps_current.json.xz
 [ $cmd = dossiers ] && file=ep_dossiers.json.xz
+[ $cmd = votes ] && file=ep_votes.json.xz
 
 source ${OPENSHIFT_HOMEDIR}app-root/runtime/dependencies/python/virtenv/bin/activate
 
