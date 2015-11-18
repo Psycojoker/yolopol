@@ -23,5 +23,7 @@ pushd ${OPENSHIFT_DATA_DIR}
     cd ${OPENSHIFT_REPO_DIR}
     export DJANGO_SETTINGS_MODULE=memopol.settings
     unxz -c ${OPENSHIFT_DATA_DIR}$file | parltrack_import_$cmd
+
+    [ $cmd = representatives ] && ./manage.py update_score
     rm -rf $file
 popd

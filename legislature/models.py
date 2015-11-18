@@ -40,7 +40,7 @@ class MemopolRepresentative(Representative):
 
     def update_score(self):
         score = 0
-        for vote in self.votes.all():
+        for vote in MemopolVote.objects.filter(representative=self):
             score += vote.absolute_score
 
         self.score = score
