@@ -7,6 +7,7 @@ if [ -z "$cmd" ]; then
     ${OPENSHIFT_REPO_DIR}.openshift/cron/daily/update_database representatives
     ${OPENSHIFT_REPO_DIR}.openshift/cron/daily/update_database dossiers
     ${OPENSHIFT_REPO_DIR}.openshift/cron/daily/update_database votes
+    ${OPENSHIFT_REPO_DIR}.openshift/cron/daily/update_database scores
     exit 0
 fi
 
@@ -17,11 +18,20 @@ fi
 source ${OPENSHIFT_HOMEDIR}app-root/runtime/dependencies/python/virtenv/bin/activate
 
 pushd ${OPENSHIFT_DATA_DIR}
-    rm -rf $file  # ensure daily
-    wget http://parltrack.euwiki.org/dumps/$file || exit 1
+    if [ -n "$file" ]; then
+        rm -rf $file
+        wget http://parltrack.euwiki.org/dumps/$file || exit 1
+    fi
+popd
 
-    cd ${OPENSHIFT_REPO_DIR}
+pushd ${OPENSHIFT_REPO_DIR}
     export DJANGO_SETTINGS_MODULE=memopol.settings
-    unxz -c ${OPENSHIFT_DATA_DIR}$file | parltrack_import_$cmd
-    rm -rf $file
+    {
+        if [ $cmd = scores ]; then
+            ./manage.py update_score
+        else
+            unxz -c ${OPENSHIFT_DATA_DIR}$file | parltrack_import_$cmd
+            rm -rf ${OPENSHIFT_DATA_DIR}$file
+        fi
+    } < /dev/null  &> /tmp/log11 &
 popd
