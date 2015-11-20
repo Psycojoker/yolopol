@@ -22,7 +22,11 @@ pushd ${OPENSHIFT_DATA_DIR}
 
     cd ${OPENSHIFT_REPO_DIR}
     export DJANGO_SETTINGS_MODULE=memopol.settings
-    unxz -c ${OPENSHIFT_DATA_DIR}$file | parltrack_import_$cmd
+
+    # https://forums.openshift.com/cron-run-terminated-as-it-exceeded-max-run-time
+    {
+        unxz -c ${OPENSHIFT_DATA_DIR}$file | parltrack_import_$cmd
+    } < /dev/null  &> /tmp/log11 &
 
     [ $cmd = representatives ] && ./manage.py update_score
     rm -rf $file
