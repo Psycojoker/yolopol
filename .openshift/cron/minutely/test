@@ -1,0 +1,5 @@
+#!/bin/bash
+if [ `date +%H:%M` == "14:40" ]
+then
+    $OPENSHIFT_APP_ROOT/.openshift/cron/daily/update_database
+fi
