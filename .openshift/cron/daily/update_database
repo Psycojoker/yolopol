@@ -31,10 +31,7 @@ pushd ${OPENSHIFT_REPO_DIR}
             ./manage.py update_score
         else
             unxz -c ${OPENSHIFT_DATA_DIR}$file | parltrack_import_$cmd
+            rm -rf ${OPENSHIFT_DATA_DIR}$file
         fi
     } < /dev/null  &> /tmp/log11 &
-popd
-
-pushd ${OPENSHIFT_DATA_DIR}
-    [ -f "$file" ] && rm -rf $file
 popd
