@@ -18,12 +18,14 @@ fi
 source ${OPENSHIFT_HOMEDIR}app-root/runtime/dependencies/python/virtenv/bin/activate
 
 pushd ${OPENSHIFT_DATA_DIR}
-    rm -rf $file  # ensure daily
-    wget http://parltrack.euwiki.org/dumps/$file || exit 1
+    if [ -n "$file" ]; then
+        rm -rf $file
+        wget http://parltrack.euwiki.org/dumps/$file || exit 1
+    fi
+popd
 
-    cd ${OPENSHIFT_REPO_DIR}
+pushd ${OPENSHIFT_REPO_DIR}
     export DJANGO_SETTINGS_MODULE=memopol.settings
-
     {
         if [ $cmd = scores ]; then
             ./manage.py update_score
@@ -31,6 +33,8 @@ pushd ${OPENSHIFT_DATA_DIR}
             unxz -c ${OPENSHIFT_DATA_DIR}$file | parltrack_import_$cmd
         fi
     } < /dev/null  &> /tmp/log11 &
+popd
 
+pushd ${OPENSHIFT_DATA_DIR}
     [ -f "$file" ] && rm -rf $file
 popd
