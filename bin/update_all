@@ -1,0 +1,6 @@
+#!/bin/bash
+
+bin/update_representatives
+bin/update_dossiers
+bin/update_votes
+bin/update_score
