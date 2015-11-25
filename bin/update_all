@@ -1,0 +1,9 @@
+#!/bin/bash
+
+bin/update_representatives
+sleep 120 # grace time for pg
+bin/update_dossiers
+sleep 120 # grace time for pg
+bin/update_votes
+sleep 120 # grace time for pg
+bin/update_scores
