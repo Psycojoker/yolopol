@@ -1,0 +1,3 @@
+#!/bin/bash
+set -x
+echo hi > $OPENSHIFT_LOG_DIR/update_all 2>&1 &
