@@ -1,37 +1,5 @@
 #!/bin/bash
 set -x
 
-cmd=$1
-
-if [ -z "$cmd" ]; then
-    ${OPENSHIFT_REPO_DIR}.openshift/cron/daily/update_database representatives
-    ${OPENSHIFT_REPO_DIR}.openshift/cron/daily/update_database dossiers
-    ${OPENSHIFT_REPO_DIR}.openshift/cron/daily/update_database votes
-    ${OPENSHIFT_REPO_DIR}.openshift/cron/daily/update_database scores
-    exit 0
-fi
-
-[ $cmd = representatives ] && file=ep_meps_current.json.xz
-[ $cmd = dossiers ] && file=ep_dossiers.json.xz
-[ $cmd = votes ] && file=ep_votes.json.xz
-
-source ${OPENSHIFT_HOMEDIR}app-root/runtime/dependencies/python/virtenv/bin/activate
-
-pushd ${OPENSHIFT_DATA_DIR}
-    if [ -n "$file" ]; then
-        rm -rf $file
-        wget http://parltrack.euwiki.org/dumps/$file || exit 1
-    fi
-popd
-
-pushd ${OPENSHIFT_REPO_DIR}
-    export DJANGO_SETTINGS_MODULE=memopol.settings
-    {
-        if [ $cmd = scores ]; then
-            ./manage.py update_score
-        else
-            unxz -c ${OPENSHIFT_DATA_DIR}$file | parltrack_import_$cmd
-            rm -rf ${OPENSHIFT_DATA_DIR}$file
-        fi
-    } < /dev/null  &> /tmp/log11 &
-popd
+cd $OPENSHIFT_REPO_DIR
+nohup bin/update_all > $OPENSHIFT_LOG_DIR/update_all 2>&1 &
