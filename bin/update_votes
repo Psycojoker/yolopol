@@ -3,4 +3,4 @@ set -ex
 
 source ${OPENSHIFT_REPO_DIR}bin/lib.sh
 
-pipe_download_to_command ep_votes.json.xz parltrack_import_dossiers
+pipe_download_to_command ep_votes.json.xz parltrack_import_votes
