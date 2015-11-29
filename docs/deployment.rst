@@ -13,14 +13,13 @@ To deploy the website, use a command like::
 
     $ rhc app-create \
         python-2.7 \
-        "http://cartreflect-claytondev.rhcloud.com/reflect?github=smarterclayton/openshift-redis-cart" \
         cron-1.4 \
         postgresql-9.2 \
         -n yourdomain \
         -a yourappname \
         -e DJANGO_SECRET_KEY=$(openssl rand -base64 32) \
         -e OPENSHIFT_PYTHON_WSGI_APPLICATION=memopol/wsgi.py \
-        --from-code https://github.com/political-memory/political_memory.git
+        --from-code https://github.com/political-memory/political_memory.git \
         --no-git
 
 This should deploy the website. Add the git remote openshift created for you,
