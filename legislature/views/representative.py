@@ -31,16 +31,16 @@ from core.utils import render_paginate_list
 from positions.forms import PositionForm
 
 
-def index(request, group_kind=None, group=None):
-
+def index(request, active=False, group_kind=None, group=None):
     # Fetch active representatives
     representative_list = MemopolRepresentative.objects.select_related(
         'country',
         'main_mandate',
         'main_mandate__group',
-    ).filter(
-        active=True
     )
+
+    if active:
+        representative_list = representative_list.filter(active=True)
 
     # Filter the list by group if group information is provided
     if group_kind:
