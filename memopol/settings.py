@@ -232,11 +232,6 @@ LOGGING = {
         },
     },
     'handlers': {
-        'debug': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(LOG_DIR, 'debug.log'),
-        },
         'console': {
             'level': LOG_LEVEL,
             'class': 'logging.StreamHandler',
@@ -245,19 +240,28 @@ LOGGING = {
     },
     'loggers': {
         'memopol': {
-            'handlers': ['console', 'debug'],
+            'handlers': ['console'],
             'level': LOG_LEVEL,
         },
         'representatives': {
-            'handlers': ['console', 'debug'],
+            'handlers': ['console'],
             'level': LOG_LEVEL,
         },
         'representatives_votes': {
-            'handlers': ['console', 'debug'],
+            'handlers': ['console'],
             'level': LOG_LEVEL,
         }
     },
 }
+
+if DEBUG:
+    LOGGING['handlers']['debug'] = {
+        'level': 'DEBUG',
+        'class': 'logging.FileHandler',
+        'filename': os.path.join(LOG_DIR, 'debug.log'),
+    }
+    for logger in LOGGING['loggers'].values():
+        logger['handlers'].append('debug')
 
 RAVEN_FILE = os.path.join(DATA_DIR, 'sentry')
 if os.path.exists(RAVEN_FILE):
