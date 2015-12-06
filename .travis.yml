@@ -23,7 +23,7 @@ deploy:
   app: dev
   domain: memopol
   skip_cleanup: true
-  deployment_branch: master
+  deployment_branch: pr
   on:
     repo: political-memory/political_memory
-    branch: master
+    branch: pr
