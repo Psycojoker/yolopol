@@ -51,7 +51,7 @@ urlpatterns = [
     ),
     # List all representatives by default
     url(
-        r'',
+        r'^(?:(?P<active>active)/)?$',
         representative.index,
         name='representative-index'
     ),
