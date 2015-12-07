@@ -2,19 +2,19 @@
 
 bin/update_representatives
 
-while pgrep -f parltrack_import_representatives; do
+while pgrep parltrack_import_representatives; do
     sleep 120
 done
 
 bin/update_dossiers
 
-while pgrep -f parltrack_import_dossiers; do
+while pgrep parltrack_import_dossiers; do
     sleep 120
 done
 
 bin/update_votes
 
-while pgrep -f parltrack_import_votes; do
+while pgrep parltrack_import_votes; do
     sleep 120
 done
 
