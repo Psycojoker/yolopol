@@ -7,7 +7,7 @@ function pipe_download_to_command() {
         cd $OPENSHIFT_DATA_DIR
     fi
 
-    [ -z "$NOCLEAN" ] && rm -rf $1
+    [ -n "$CLEAN" ] && rm -rf $1
     [ -f "$1" ] || wget http://parltrack.euwiki.org/dumps/$1 || exit 1
 
     if [ -n "$OPENSHIFT_REPO_DIR" ]; then
@@ -16,5 +16,5 @@ function pipe_download_to_command() {
 
     export DJANGO_SETTINGS_MODULE=memopol.settings
     unxz -c ${OPENSHIFT_DATA_DIR}$1 | $2
-    [ -z "$NOCLEAN" ] && rm -rf $1
+    [ -n "$CLEAN" ] && rm -rf $1
 }
