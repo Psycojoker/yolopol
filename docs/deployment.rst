@@ -5,10 +5,6 @@ OpenShift is an Open-Source Platform-as-a-Service software by Red Hat. It is
 also available in its hosted version known as "OpenShift Online" and the first
 three websites ("gears") are free.
 
-.. danger:: The following command stores the secret key in an environment
-            variable. Environment variables are not secure on openshift since
-            they are printed out by the git receive hook.
-
 To deploy the website, use a command like::
 
     $ rhc app-create \
@@ -17,7 +13,6 @@ To deploy the website, use a command like::
         postgresql-9.2 \
         -n yourdomain \
         -a yourappname \
-        -e DJANGO_SECRET_KEY=$(openssl rand -base64 32) \
         -e OPENSHIFT_PYTHON_WSGI_APPLICATION=memopol/wsgi.py \
         --from-code https://github.com/political-memory/political_memory.git \
         --no-git
