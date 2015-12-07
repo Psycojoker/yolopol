@@ -65,7 +65,7 @@ class MemopolVote(Vote):
     def absolute_score(self):
         try:
             recommendation = self.proposal.recommendation
-        except models.DoesNotExist:
+        except models.ObjectDoesNotExist:
             # Recommendation was deleted
             return 0
 
