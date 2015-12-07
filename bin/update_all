@@ -2,20 +2,15 @@
 
 bin/update_representatives
 
-while pgrep parltrack_import_representatives; do
-    sleep 120
-done
+# grace time for pg
+sleep 120
 
 bin/update_dossiers
 
-while pgrep parltrack_import_dossiers; do
-    sleep 120
-done
+sleep 120
 
 bin/update_votes
 
-while pgrep parltrack_import_votes; do
-    sleep 120
-done
+sleep 120
 
 bin/update_scores
