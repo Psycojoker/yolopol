@@ -47,9 +47,9 @@ sake of the demo, we'll use the main repository URL::
 
 Create your own branch, ie::
 
-    $ git checkout -b mybranch origin/pr
-    Branch mybranch set up to track remote branch pr from origin.
-    Switched to a new branch 'mybranch'
+    $ git checkout -b yourbranch origin/pr
+    Branch yourbranch set up to track remote branch pr from origin.
+    Switched to a new branch 'yourbranch'
 
 Install Python dependencies
 ===========================
@@ -138,7 +138,6 @@ Database migrations
 
 Run database migrations, it'll use a file-based sqlite database by default::
 
-    [memopol_env] 09/12 2015 22:25:47 jpic@lue /tmp/political_memory  (mybranch)
     $ ./manage.py migrate
     Operations to perform:
       Synchronize unmigrated apps: django_filters, staticfiles, datetimewidget, autocomplete_light, messages, adminplus, compressor, humanize, django_extensions, constance, bootstrap3

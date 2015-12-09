@@ -5,6 +5,29 @@ OpenShift is an Open-Source Platform-as-a-Service software by Red Hat. It is
 also available in its hosted version known as "OpenShift Online" and the first
 three websites ("gears") are free.
 
+Clone the repository
+====================
+
+You should fork the project on github and use the fork's clone url. For the
+sake of the demo, we'll use the main repository URL::
+
+    $ git clone https://github.com/political-memory/political_memory.git
+    Cloning into 'political_memory'...
+    remote: Counting objects: 2516, done.
+    remote: Compressing objects: 100% (109/109), done.
+    remote: Total 2516 (delta 44), reused 0 (delta 0), pack-reused 2402
+    Receiving objects: 100% (2516/2516), 4.40 MiB | 79.00 KiB/s, done.
+    Resolving deltas: 100% (1103/1103), done.
+    Checking connectivity... done.
+
+    $ cd political_memory/
+
+Create your own branch, ie::
+
+    $ git checkout -b yourbranch origin/pr
+    Branch yourbranch set up to track remote branch pr from origin.
+    Switched to a new branch 'yourbranch'
+
 Create an app on OpenShift
 ==========================
 
@@ -37,16 +60,12 @@ Add the git remote openshift created for you, you can see it with
 
     $ git remote add oo_yourappname ssh://569f5cf500045f6a1839a0a4@yourappname-yourdomain.rhcloud.com/~/git/yourappname.git/
 
-Create your branch
-==================
+Activate OpenShift's git post-recieve hook
+==========================================
 
-Create your git branch::
+Activate OpenShift's post-receive hook on your branch::
 
-    $ git checkout -b yourbranch origin/pr
-
-And activate OpenShift's post-receive hook on it::
-
-    $ rhc app-configure -a yourappname --deployment-branch openshift
+    $ rhc app-configure -a yourappname --deployment-branch yourbranch
 
 Deploy your branch
 ==================
