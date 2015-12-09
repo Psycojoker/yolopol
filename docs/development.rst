@@ -10,8 +10,8 @@ development on Linux. It requires git, a fairly recent version of nodejs (see
 :file:`.openshift/action_hooks/deploy` for a way to install it), python2 and
 virtualenv.
 
-Clone the repository
-====================
+Make a virtual environment
+==========================
 
 For the sake of the tutorial, we'll do this in the temporary directory, but you
 could do it anywhere::
@@ -27,6 +27,9 @@ Create a python virtual environment and activate it::
     Installing setuptools, pip, wheel...done.
 
     $ source memopol_env/bin/activate
+
+Clone the repository
+====================
 
 You should fork the project on github and use the fork's clone url. For the
 sake of the demo, we'll use the main repository URL::
@@ -47,6 +50,9 @@ Create your own branch, ie::
     $ git checkout -b mybranch origin/pr
     Branch mybranch set up to track remote branch pr from origin.
     Switched to a new branch 'mybranch'
+
+Install Python dependencies
+===========================
 
 Then, install the package for development::
 
@@ -72,6 +78,9 @@ And install the requirements::
       Running setup.py develop for django-representatives
       Running setup.py develop for django-representatives-votes
     Successfully installed amqp-1.4.8 anyjson-0.3.3 billiard-3.3.0.22 celery-3.1.19 django-1.8.7 django-adminplus-0.5 django-appconf-1.0.1 django-autocomplete-light-2.2.10 django-bootstrap3-6.2.2 django-celery-3.1.17 django-compressor-1.6 django-constance-1.1.1 django-datetime-widget-0.9.3 django-denorm-0.2.0 django-filter-0.11.0 django-picklefield-0.3.2 django-representatives django-representatives-votes django-taggit-0.17.5 django-uuidfield-0.5.0 djangorestframework-3.3.1 kombu-3.0.30 py-dateutil-2.2 pyprind-2.9.3 requests-2.8.1 slugify-0.0.1
+
+Install NodeJS dependencies
+===========================
 
 We'll also need to install bower for the staticfiles::
 
@@ -115,10 +124,17 @@ Build the static files with gulp::
           have gulp watching for changes and rebuilding static files
           automatically.
 
-``DEBUG`` is disabled by default, to enable it export the ``DEBUG`` variable in
-the current shell::
+Activate ``DEBUG``
+==================
+
+``DEBUG`` is disabled by default, the development server won't run properly by
+default thnen, to enable it export the ``DEBUG`` variable in the current
+shell::
 
     $ export DEBUG=True
+
+Database migrations
+===================
 
 Run database migrations, it'll use a file-based sqlite database by default::
 
@@ -139,6 +155,9 @@ Run database migrations, it'll use a file-based sqlite database by default::
 
       Applying taggit.0002_auto_20150616_2121... OK
 
+Run the development server
+==========================
+
 Run the development server::
 
     $ ./manage.py runserver
@@ -152,7 +171,11 @@ Run the development server::
     Quit the server with CONTROL-C.
     [09/Dec/2015 21:26:48] "GET / HTTP/1.1" 200 13294
 
-The website is running on ``http://127.0.0.1:8000/``. To provision it with data
-(takes a while)::
+The website is running on ``http://127.0.0.1:8000/``.
+
+Provision with data
+===================
+
+To provision it with data (takes a while)::
 
     $ bin/update_all
