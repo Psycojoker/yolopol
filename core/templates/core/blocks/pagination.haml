@@ -8,19 +8,20 @@
              'aria-label': 'Previous'}
             <i aria-hidden="true" class="fa fa-chevron-left"></i>
 
-      - for page_num in page_range
-        - if not page_num
+      - for p in page.pages
+        - if p
+          - if p == page.number
+            %li.active
+              %a{'href': ''}
+                {{ p }}
+          - else
+            %li
+              %a{'href': '?={queries.urlencode}&page=={p}'}
+                {{ p }}
+        - else
           %li.disabled
             %a{'href': ''}
               …
-        - elif page_num == page.number
-          %li.active
-            %a{'href': ''}
-              {{ page_num }}
-        - else
-          %li
-            %a{'href': '?={queries.urlencode}&page=={page_num}'}
-              {{ page_num }}
 
       - if page.has_next
         %li
