@@ -97,7 +97,7 @@ INSTALLED_APPS = (
 
 if DEBUG:
     try:
-        import debug_toolbar
+        import debug_toolbar  # noqa
     except:
         pass
     else:
