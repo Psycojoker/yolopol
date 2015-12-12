@@ -20,9 +20,11 @@
 
 from __future__ import absolute_import
 
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from .digg_paginator import DiggPaginator
+from django.core.paginator import EmptyPage
+from django.core.paginator import PageNotAnInteger
 from django.shortcuts import render
+
+from .digg_paginator import DiggPaginator
 
 
 def render_paginate_list(request, object_list, template_name):
@@ -49,7 +51,7 @@ def render_paginate_list(request, object_list, template_name):
     context['object_list'] = objects
     context['paginator'] = paginator
     context['pagination_limits'] = pagination_limits
-    
+
     return render(
         request,
         template_name,

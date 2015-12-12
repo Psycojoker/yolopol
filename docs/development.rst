@@ -124,14 +124,14 @@ Build the static files with gulp::
           have gulp watching for changes and rebuilding static files
           automatically.
 
-Activate ``DEBUG``
-==================
+Activate ``DJANGO_DEBUG``
+=========================
 
-``DEBUG`` is disabled by default, the development server won't run properly by
-default thnen, to enable it export the ``DEBUG`` variable in the current
-shell::
+``DEBUG`` is disabled by default, the development server
+won't run properly by default thnen, to enable it export
+the ``DJANGO_DEBUG`` variable in the current shell::
 
-    $ export DEBUG=True
+    $ export DJANGO_DEBUG=True
 
 Database migrations
 ===================

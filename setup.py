@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(name='political-memory',
     version='0.0.1',
@@ -9,16 +9,20 @@ setup(name='political-memory',
     author_email='cortex@worlddomination.be',
     url='http://github.com/political-memory/political_memory/',
     install_requires=[
-        'django',
-        'django-debug-toolbar',
-        'django_pdb',
-        'django_extensions',
-        'werkzeug',
-        'south',
+        'django>1.8,<1.9',
         'hamlpy',
+        'django-bootstrap3',
+        'django-constance[database]',
+        'django-compressor',
         'django-coffeescript',
-        'ijson',
         'python-dateutil',
+        'django-autocomplete-light',
+        'django-datetime-widget',
+        'django-filter',
+        'django-taggit',
+        'django-representatives',
+        'django-representatives-votes',
+        'ijson',
         'pytz',
     ],
 )
