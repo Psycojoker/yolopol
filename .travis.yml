@@ -1,7 +1,6 @@
 sudo: false
 env:
-  matrix:
-  - DEBUG=True
+  - DJANGO_DEBUG=True DJANGO_SETTINGS_MODULE=memopol.settings
 language: python
 python:
 - '2.7'
@@ -16,7 +15,8 @@ before_script:
 script:
 - pep8 . --exclude '*/migrations,docs' --ignore E128
 - flake8 . --exclude '*/migrations,docs' --ignore E128
-- ./manage.py migrate
+- django-admin migrate
+- django-admin update_score
 - node_modules/gulp/bin/gulp.js less
 deploy:
 - provider: openshift

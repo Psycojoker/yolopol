@@ -4,10 +4,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 
-# from legislature.models import MemopolRepresentative
 from core.utils import create_child_instance_from_parent
 from representatives_votes.contrib.parltrack.votes import vote_pre_import
-# from representatives.models import Representative
 from representatives_votes.models import Dossier, Proposal, Vote
 
 
