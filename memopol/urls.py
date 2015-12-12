@@ -23,7 +23,6 @@ from django.contrib import admin
 
 import core.views
 
-admin.site = AdminSitePlus()
 admin.autodiscover()
 
 urlpatterns = patterns('',
