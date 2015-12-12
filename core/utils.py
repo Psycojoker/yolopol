@@ -29,22 +29,34 @@ def render_paginate_list(request, object_list, template_name):
     pagination_limits = (10, 20, 50, 100)
     num_by_page = request.GET.get('limit', 30)
     paginator = Paginator(object_list, num_by_page)
-    page = request.GET.get('page', 1)
+    number = request.GET.get('page', 1)
+    number = int(number) if number.isdigit() else 1
+
     try:
-        objects = paginator.page(page)
-    except PageNotAnInteger:
-        objects = paginator.page(1)
+        page = paginator.page(number)
     except EmptyPage:
-        objects = paginator.page(paginator.num_pages)
+        page = paginator.page(paginator.num_pages)
 
     context = {}
-    queries_without_page = request.GET.copy()
-    if 'page' in queries_without_page:
-        del queries_without_page['page']
-    context['queries'] = queries_without_page
-    context['object_list'] = objects
     context['paginator'] = paginator
-    context['pagination_limits'] = pagination_limits
+    context['page'] = page
+    context['object_list'] = context['page'].object_list
+
+    page_range = []
+
+    if number > 2:
+        page_range += paginator.page_range[:2]
+        page_range += [None]
+
+    page_range += paginator.page_range[number-3:number-1]
+    page_range += [number]
+    page_range += paginator.page_range[number:number+2]
+
+    if page_range[-1] > number:
+        page_range += [None]
+        page_range += paginator.page_range[-2:]
+
+    context['page_range'] = page_range
 
     return render(
         request,

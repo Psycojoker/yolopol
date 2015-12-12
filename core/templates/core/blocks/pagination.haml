@@ -2,18 +2,18 @@
 
   %nav
     %ul.pagination.pagination-sm
-      - if object_list.has_previous
+      - if page.has_previous
         %li
-          %a{'href': '?={queries.urlencode}&page=={object_list.previous_page_number}',
+          %a{'href': '?={queries.urlencode}&page=={page.previous_page_number}',
              'aria-label': 'Previous'}
             <i aria-hidden="true" class="fa fa-chevron-left"></i>
 
-      - for page_num in object_list.page_range
+      - for page_num in page_range
         - if not page_num
           %li.disabled
             %a{'href': ''}
               …
-        - elif page_num == object_list.number
+        - elif page_num == page.number
           %li.active
             %a{'href': ''}
               {{ page_num }}
@@ -22,9 +22,9 @@
             %a{'href': '?={queries.urlencode}&page=={page_num}'}
               {{ page_num }}
 
-      - if object_list.has_next
+      - if page.has_next
         %li
-          %a{'href': '?={queries.urlencode}&page=={object_list.next_page_number}',
+          %a{'href': '?={queries.urlencode}&page=={page.next_page_number}',
              'aria-label': 'Next'}
             <i aria-hidden="true" class="fa fa-chevron-right"></i>
 
