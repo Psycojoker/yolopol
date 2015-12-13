@@ -163,7 +163,11 @@ The website is running on ``http://127.0.0.1:8000/``.
 Provision with data
 ===================
 
-To provision it with data (takes a while)::
+To provision it with data, load sample::
+
+    $ ./manage.py loaddata memopol/fixtures/small_sample.json
+
+Or actual data (takes a while)::
 
     $ bin/update_all
 
