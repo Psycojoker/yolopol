@@ -12,9 +12,10 @@ Contents:
    :maxdepth: 2
 
    usage
-   development
    deployment
    administration
+   development
+   hacker
 
 Indices and tables
 ==================
