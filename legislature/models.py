@@ -22,7 +22,7 @@ from datetime import datetime
 
 from django.db import models
 
-from representatives.contrib.parltrack import representative_post_save
+from representatives.contrib.parltrack.import_representatives import representative_post_save
 from representatives.models import Country, Mandate, Representative
 from votes.models import MemopolVote
 

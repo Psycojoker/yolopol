@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from django.utils.functional import cached_property
 
 from core.utils import create_child_instance_from_parent
-from representatives_votes.contrib.parltrack.votes import vote_pre_import
+from representatives_votes.contrib.parltrack.import_votes import vote_pre_import
 from representatives_votes.models import Dossier, Proposal, Vote
 
 
