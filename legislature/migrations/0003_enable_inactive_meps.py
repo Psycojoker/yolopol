@@ -14,6 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='memopolrepresentative',
             name='main_mandate',
-            field=models.ForeignKey(default=None, to='representatives.Mandate', null=True),
+            field=models.ForeignKey(
+                default=None, to='representatives.Mandate', null=True),
         ),
     ]

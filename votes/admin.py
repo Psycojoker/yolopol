@@ -36,6 +36,7 @@ class MemopolDossierAdmin(admin.ModelAdmin):
 
 
 class RecommendationsAdmin(admin.ModelAdmin):
+
     def link_to_proposal(self):
         return link_to_edit(self, 'proposal')
     link_to_proposal.allow_tags = True
