@@ -49,11 +49,6 @@ class Position(models.Model):
     # Adds our custom manager
     objects = PositionManager()
 
-    def save(self, *args, **kwargs):
-        """ Set published to default value and save the model"""
-        self.published = config.POSITION_PUBLISHED
-        super(Position, self).save(*args, **kwargs)
-
     @property
     def short_text(self):
         return truncatewords(self.text, 5)
