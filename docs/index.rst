@@ -11,8 +11,10 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   usage
    development
    deployment
+   administration
 
 Indices and tables
 ==================

@@ -166,3 +166,5 @@ Provision with data
 To provision it with data (takes a while)::
 
     $ bin/update_all
+
+Continue to :doc:`administration`.
