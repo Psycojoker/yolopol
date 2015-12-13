@@ -202,6 +202,7 @@ TEMPLATE_LOADERS = (
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'constance.context_processors.config',
+    'django.template.context_processors.request',
 )
 
 # Static files finders
