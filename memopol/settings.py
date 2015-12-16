@@ -220,9 +220,9 @@ COMPRESS_ENABLED = False
 
 COMPRESS_PRECOMPILERS = (
     # ('text/coffeescript', 'coffee --compile --stdio'),
-    ('text/less', 'lessc {infile} {outfile}'),
-    ('text/x-sass', 'sass {infile} {outfile}'),
-    ('text/x-scss', 'sass --scss {infile} {outfile}'),
+    ('text/less', 'lesscpy {infile}'),
+    # ('text/x-sass', 'sass {infile} {outfile}'),
+    # ('text/x-scss', 'sass --scss {infile} {outfile}'),
     # ('text/stylus', 'stylus < {infile} > {outfile}'),
     # ('text/foobar', 'path.to.MyPrecompilerFilter'),
 )
