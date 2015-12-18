@@ -33,7 +33,7 @@ CI=true
 bin/install_client_deps.sh
 mkdir -p wsgi
 ./manage.py collectstatic --noinput
-./manage.py compress --noinput
+./manage.py compress
 popd
 
 mkdir -p ${OPENSHIFT_DATA_DIR}media
