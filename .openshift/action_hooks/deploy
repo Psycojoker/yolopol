@@ -39,5 +39,4 @@ popd
 mkdir -p ${OPENSHIFT_DATA_DIR}media
 mkdir -p ${OPENSHIFT_REPO_DIR}wsgi/static/media
 ln -sf ${OPENSHIFT_DATA_DIR}media ${OPENSHIFT_REPO_DIR}wsgi/static/media
-ln -sf ${OPENSHIFT_DATA_DIR}compress/CACHE ${OPENSHIFT_REPO_DIR}wsgi/CACHE
-
+ln -sf ${OPENSHIFT_DATA_DIR}compress/CACHE ${OPENSHIFT_REPO_DIR}wsgi/static/collected/CACHE
