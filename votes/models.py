@@ -1,32 +1,13 @@
 # coding: utf-8
-
-# This file is part of memopol.
-#
-# memopol is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as
-# published by the Free Software Foundation, either version 3 of
-# the License, or any later version.
-#
-# memopol is distributed in the hope that it will
-# be useful, but WITHOUT ANY WARRANTY; without even the implied
-# warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU General Affero Public
-# License along with django-representatives.
-# If not, see <http://www.gnu.org/licenses/>.
-#
-# Copyright (C) 2015 Arnaud Fabre <af@laquadrature.net>
-
 from django.db import models
-from django.utils.functional import cached_property
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils.functional import cached_property
 
-# from representatives.models import Representative
-from representatives_votes.models import Vote, Proposal, Dossier
-# from legislature.models import MemopolRepresentative
 from core.utils import create_child_instance_from_parent
+from representatives_votes.contrib.parltrack.import_votes import \
+    vote_pre_import
+from representatives_votes.models import Dossier, Proposal, Vote
 
 
 class Recommendation(models.Model):
@@ -69,26 +50,43 @@ class MemopolDossier(Dossier):
     def __unicode__(self):
         return self.name
 
+
 @receiver(post_save, sender=Dossier)
 def create_memopolrepresentative_from_representative(instance, **kwargs):
     create_child_instance_from_parent(MemopolDossier, instance)
 
 
 class MemopolVote(Vote):
+
     class Meta:
         proxy = True
 
     @cached_property
     def absolute_score(self):
-        if self.proposal.recommendation:
+        try:
             recommendation = self.proposal.recommendation
-            weight = recommendation.weight
-            if (self.position == 'abstain' or
-                recommendation.recommendation == 'abstain'):
-                weight = weight / 2
-            if self.position == recommendation.recommendation:
-                return weight
-            else:
-                return -weight
-        else:
+        except models.ObjectDoesNotExist:
+            # Recommendation was deleted
             return 0
+
+        weight = recommendation.weight
+        if (self.position == 'abstain' or
+                recommendation.recommendation == 'abstain'):
+            weight = weight / 2
+        if self.position == recommendation.recommendation:
+            return weight
+        else:
+            return -weight
+
+
+def skip_votes(sender, vote_data=None, **kwargs):
+    dossiers = getattr(sender, 'memopol_filters', None)
+
+    if dossiers is None:
+        sender.memopol_filters = dossiers = Dossier.objects.filter(
+            proposals__recommendation__in=Recommendation.objects.all()
+        ).values_list('reference', flat=True)
+
+    if vote_data.get('epref', None) not in dossiers:
+        return False
+vote_pre_import.connect(skip_votes)
