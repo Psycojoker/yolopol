@@ -172,6 +172,7 @@ COMPRESS_ROOT = 'static/'
 if DATA_DIR:
     MEDIA_URL = '/static/media/'
     MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
+    COMPRESS_ROOT = os.path.join(DATA_DIR, 'compress')
 
 if PUBLIC_DIR:
     STATIC_URL = '/static/collected/'
@@ -217,6 +218,11 @@ STATICFILES_FINDERS = (
 
 # Use compressor even in debug
 COMPRESS_ENABLED = False
+
+if os.environ.get('OPENSHIFT_LOG_DIR', None):
+    # Enable offline compression on openshift
+    COMPRESS_ENABLED = True
+    COMPRESS_OFFLINE = True
 
 COMPRESS_PRECOMPILERS = (
     # ('text/coffeescript', 'coffee --compile --stdio'),
