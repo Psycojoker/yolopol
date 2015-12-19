@@ -16,8 +16,5 @@
     # Create the local db
     python manage.py migrate
 
-    # Install browser libs
-    bin/install_client_deps.sh
-
     # In another terminal (don't forget to activate the venv)
     ./manage.py runserver
