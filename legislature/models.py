@@ -78,13 +78,12 @@ def mempol_representative(sender, representative, data, **kwargs):
         # save a child model.
         memopol_representative.__dict__.update(representative.__dict__)
 
-    try:
-        country = sorted(data.get('Constituencies', []),
-                         key=lambda c: c.get('end') if c is not None else 1
-                         )[-1]['country']
-    except IndexError:
-        pass
-    else:
+    countries = sorted(data.get('Constituencies', []),
+        key=lambda c: c.get('end') if c is not None else 1)
+
+    if len(countries):
+        country = countries[-1]['country']
+
         if sender.cache.get('countries', None) is None:
             sender.cache['countries'] = {c.name: c.pk for c in
                                          Country.objects.all()}
