@@ -21,61 +21,31 @@
 from datetime import datetime
 
 from django.db import models
-from django.core.exceptions import ObjectDoesNotExist
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-# from django.utils.functional import cached_property
 
-from representatives.models import Representative, Mandate, Country
+from representatives.contrib.parltrack.import_representatives import \
+    representative_post_save
+from representatives.models import Country, Mandate, Representative
 from votes.models import MemopolVote
-from core.utils import create_child_instance_from_parent
+
+
+# from django.utils.functional import cached_property
 
 
 class MemopolRepresentative(Representative):
     country = models.ForeignKey(Country, null=True)
     score = models.IntegerField(default=0)
-    main_mandate = models.ForeignKey(Mandate, null=True, default=True)
+    main_mandate = models.ForeignKey(Mandate, null=True, default=None)
 
     def update_score(self):
         score = 0
-        for vote in self.votes.all():
+        for vote in MemopolVote.objects.filter(representative=self):
             score += vote.absolute_score
 
         self.score = score
         self.save()
 
-    def update_country(self):
-        # Create a country if it does'nt exist
-        # The representative's country is the one associated
-        # with the last 'country' mandate
-        try:
-            country_mandate = self.mandates.filter(
-                group__kind='country'
-            ).order_by('-begin_date')[0:1].get()
-
-            country, _ = Country.objects.get_or_create(
-                name=country_mandate.group.name,
-                code=country_mandate.group.abbreviation
-            )
-            self.country = country
-        except ObjectDoesNotExist:
-            self.country = None
-        self.save()
-
-    def update_main_mandate(self):
-        try:
-            self.main_mandate = self.mandates.get(
-                end_date__gte=datetime.now(),
-                group__kind='group'
-            )
-        except Mandate.DoesNotExist:
-            self.main_mandate = None
-        self.save()
-
     def update_all(self):
-        self.update_country()
         self.update_score()
-        self.update_main_mandate()
 
     def active_mandates(self):
         return self.mandates.filter(
@@ -94,7 +64,44 @@ class MemopolRepresentative(Representative):
         ).filter(representative=self)
 
 
-@receiver(post_save, sender=Representative)
-def create_memopolrepresentative_from_representative(instance, **kwargs):
-    memopol_representative = create_child_instance_from_parent(MemopolRepresentative, instance)
-    memopol_representative.save()
+def mempol_representative(sender, representative, data, **kwargs):
+    update = False
+    try:
+        memopol_representative = MemopolRepresentative.objects.get(
+            representative_ptr=representative)
+    except MemopolRepresentative.DoesNotExist:
+        memopol_representative = MemopolRepresentative(
+            representative_ptr=representative)
+
+        # Please forgive the horror your are about to witness, but this is
+        # really necessary. Django wants to update the parent model when we
+        # save a child model.
+        memopol_representative.__dict__.update(representative.__dict__)
+
+    try:
+        country = sorted(data.get('Constituencies', []),
+                         key=lambda c: c.get('end') if c is not None else 1
+                         )[-1]['country']
+    except IndexError:
+        pass
+    else:
+        if sender.cache.get('countries', None) is None:
+            sender.cache['countries'] = {c.name: c.pk for c in
+                                         Country.objects.all()}
+        country_id = sender.cache['countries'].get(country)
+
+        if memopol_representative.country_id != country_id:
+            memopol_representative.country_id = country_id
+            update = True
+
+    if sender.mep_cache['groups']:
+        main_mandate = sorted(sender.mep_cache['groups'],
+                              key=lambda m: m.end_date)[-1]
+
+        if memopol_representative.main_mandate_id != main_mandate.pk:
+            memopol_representative.main_mandate_id = main_mandate.pk
+            update = True
+
+    if update:
+        memopol_representative.save()
+representative_post_save.connect(mempol_representative)

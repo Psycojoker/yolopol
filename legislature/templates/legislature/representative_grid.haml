@@ -7,6 +7,13 @@
   - include 'legislature/search.html'
   - include "core/blocks/pagination.html"
 
+  %div.count
+    Filter active representatives :
+      %a{'href': "{% url 'legislature:representative-index' active='active' %}"}
+        Yes
+      %a{'href': "{% url 'legislature:representative-index' %}"}
+        No
+
   .representative_grid
     - for representative in object_list
       .representative_item
