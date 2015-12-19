@@ -7,12 +7,10 @@ python:
 install:
 - pip install -e .
 - pip install flake8 pep8
-before_script:
-- bin/install_client_deps.sh
 script:
-- ! lesscpy -N static/less/base.less 2>&1 | grep Error
 - pep8 . --exclude '*/migrations,docs,static' --ignore E128
 - flake8 . --exclude '*/migrations,docs,static' --ignore E128
+- django-admin check
 - django-admin test positions votes core legislature
 - django-admin migrate
 - django-admin update_score

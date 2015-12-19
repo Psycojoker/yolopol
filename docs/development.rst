@@ -67,18 +67,6 @@ Then, install the package for development::
       Running setup.py develop for political-memory
     Successfully installed django-1.9 django-coffeescript-0.7.2 django-debug-toolbar-1.4 django-extensions-1.5.9 django-pdb-0.4.2 hamlpy-0.82.2 ijson-2.2 markdown-2.6.5 political-memory pygments-2.0.2 python-dateutil-2.4.2 pytz-2015.7 six-1.10.0 south-1.0.2 sqlparse-0.1.18 werkzeug-0.11.2
 
-Install client dependencies
-===========================
-
-We'll also need to download client libraries::
-
-    $ bin/install_client_deps.sh
-    * Downloading jquery/jquery (2.1.4) from Github...
-    * Downloading FortAwesome/Font-Awesome (v4.3.0) from Github...
-    * Downloading lipis/flag-icon-css (0.7.1) from Github...
-    * Downloading twbs/bootstrap (v3.3.5) from Github...
-    * Done
-
 Activate ``DJANGO_DEBUG``
 =========================
 
@@ -91,18 +79,29 @@ the ``DJANGO_DEBUG`` variable in the current shell::
 Run the development server
 ==========================
 
-Run the development server::
+Run the development server (browser libraries will be downloaded on first run)::
 
     $ ./manage.py runserver
 
     Performing system checks...
 
-    System check identified no issues (0 silenced).
+    Missing jquery, downloading jquery/jquery (2.1.4) from GitHub
+    Missing flag-icon-css, downloading lipis/flag-icon-css (0.7.1) from GitHub
+    Missing bootstrap, downloading twbs/bootstrap (v3.3.5) from GitHub
+    Missing fontawesome, downloading FortAwesome/Font-Awesome (v4.3.0) from GitHub
+    System check identified some issues:
+
+    INFOS:
+    ?: (checks.I001) Library bootstrap was missing, downloaded twbs/bootstrap (v3.3.5) from GitHub
+    ?: (checks.I001) Library flag-icon-css was missing, downloaded lipis/flag-icon-css (0.7.1) from GitHub
+    ?: (checks.I001) Library fontawesome was missing, downloaded FortAwesome/Font-Awesome (v4.3.0) from GitHub
+    ?: (checks.I001) Library jquery was missing, downloaded jquery/jquery (2.1.4) from GitHub
+
+    System check identified 4 issues (0 silenced).
     December 09, 2015 - 21:26:47
     Django version 1.8.7, using settings 'memopol.settings'
     Starting development server at http://127.0.0.1:8000/
     Quit the server with CONTROL-C.
-    [09/Dec/2015 21:26:48] "GET / HTTP/1.1" 200 13294
 
 The website is running on ``http://127.0.0.1:8000/``.
 
