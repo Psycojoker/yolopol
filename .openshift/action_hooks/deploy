@@ -30,8 +30,8 @@ fi
 PATH="${OPENSHIFT_DATA_DIR}node/bin:$PATH"
 HOME=$OPENSHIFT_DATA_DIR
 CI=true
-bin/install_client_deps
 mkdir -p wsgi
+./manage.py check
 ./manage.py collectstatic --noinput
 ./manage.py compress
 popd
