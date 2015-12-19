@@ -16,14 +16,5 @@
     # Create the local db
     python manage.py migrate
 
-    # Some static files
-    bower install
-
-    # Install node modules
-    npm install
-
-    # Build static files
-    node_modules/gulp/bin/gulp.js less
-
     # In another terminal (don't forget to activate the venv)
     ./manage.py runserver

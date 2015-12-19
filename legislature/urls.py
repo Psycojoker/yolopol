@@ -20,9 +20,7 @@ from __future__ import absolute_import
 
 from django.conf.urls import url
 
-from .views import representative
-from .views import group
-
+from .views import group, representative
 
 urlpatterns = [
     # List of groups by group kind
@@ -34,12 +32,6 @@ urlpatterns = [
     # Representative detail by representative name
     url(
         r'^(?P<name>[-\w]+)$',
-        representative.detail,
-        name='representative-detail'
-    ),
-    # Representative detail by representative pk
-    url(
-        r'^(?P<pk>\d+)$',
         representative.detail,
         name='representative-detail'
     ),
