@@ -20,13 +20,13 @@
         %tr
           %th Country
           %td
-            = representative.country|country_flag
+            = representative.get_country|country_flag
         %tr
           %th Party
           %td
-            %a{:href => "{{ representative.main_mandate|by_group_url }}"}
-              {{ representative.main_mandate.role }} of
-              {{ representative.main_mandate.group.name }}
+            %a{:href => "{{ representative.get_current_mandate|by_group_url }}"}
+              {{ representative.get_current_mandate.role }} of
+              {{ representative.get_current_mandate.group.name }}
         %tr
           %th Biography
           %td

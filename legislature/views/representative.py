@@ -63,10 +63,8 @@ def index(request, group_kind=None, group=None):
 
 
 def detail(request, name=None):
-    query_set = Representative.objects.select_related(
-        'country',
-        'main_mandate'
-    )
+    query_set = Representative.objects.all()
+    query_set = Representative.objects.prefetch_profile(query_set)
 
     try:
         representative = query_set.get(slug=name)
