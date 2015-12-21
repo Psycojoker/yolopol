@@ -18,12 +18,12 @@
             %a{'href': "{% url 'legislature:representative-detail' name=representative.slug %}"}
               = representative.full_name
           %li.country
-            %a{'href': "{% url 'legislature:representative-index' group_kind='country' group=representative.country.code %}"}
-              = representative.country|country_flag
+            %a{'href': "{% url 'legislature:representative-index' group_kind='country' group=representative.get_country.code %}"}
+              = representative.get_country|country_flag
           %li.mandate
             %a{'href': "{{ representative.main_mandate|by_group_url }}"}
               = representative.main_mandate.group.abbreviation
           %li.score
-            = representative.score|score_label
+            = representative.votes_profile.score|score_label
 
   - include "core/blocks/pagination.html"

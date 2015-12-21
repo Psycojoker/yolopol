@@ -4,7 +4,7 @@ from django.template.defaultfilters import truncatewords
 from django.core.urlresolvers import reverse
 from taggit.managers import TaggableManager
 
-from legislature.models import MemopolRepresentative
+from representatives.models import Representative
 
 
 class PositionManager(models.Manager):
@@ -16,9 +16,8 @@ class PositionManager(models.Manager):
 
 
 class Position(models.Model):
-    representative = models.ForeignKey(
-        MemopolRepresentative,
-        related_name='positions')
+    representative = models.ForeignKey(Representative,
+            related_name='positions')
     datetime = models.DateField()
     text = models.TextField()
     link = models.URLField()

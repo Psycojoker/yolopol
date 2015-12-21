@@ -3,7 +3,7 @@ import copy
 
 from django.test import TestCase, Client
 
-from legislature.models import MemopolRepresentative
+from representatives.models import Representative
 from positions.models import Position
 
 
@@ -12,7 +12,7 @@ class PositionTest(TestCase):
         self.client = Client()
         self.tags = [u'foo', u'bar']
 
-        self.mep = MemopolRepresentative.objects.create(
+        self.mep = Representative.objects.create(
             full_name='%sfull' % self.id(), slug='slug')
 
         self.fixture = {
@@ -32,7 +32,7 @@ class PositionTest(TestCase):
         assert list(result.tags.values_list('name', flat=True)) == self.tags
         assert result.datetime == datetime.date(2015, 12, 11)
         assert result.link == self.fixture['link']
-        assert result.representative.representative_ptr_id == self.mep.pk
+        assert result.representative.pk == self.mep.pk
         assert result.published is False
 
     def test_position_publishing(self):

@@ -24,7 +24,7 @@ from django.shortcuts import get_object_or_404, render
 
 from core.utils import render_paginate_list
 
-from .models import MemopolDossier
+from representatives_votes.models import Dossier
 
 
 def dossier_index(request):

@@ -30,13 +30,13 @@
             = representative.full_name
 
         %td
-          %a{'href': "{% url 'legislature:representative-index' group_kind='country' group=representative.country.code %}"}
-            = representative.country|country_flag
+          %a{'href': "{% url 'legislature:representative-index' group_kind='country' group=representative.get_country.country.code %}"}
+            = representative.get_country|country_flag
 
         %td
           %a{'href': "{{ representative.main_mandate|by_group_url }}"}
-            = representative.main_mandate.group.abbreviation
+            = representative.get_current_mandate.group.abbreviation
         %td
-          = representative.score|score_label
+          = representative.get_score|score_label
 
   - include "core/blocks/pagination.html"

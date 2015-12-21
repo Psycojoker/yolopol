@@ -1,10 +1,11 @@
 from django.core.management.base import BaseCommand
 
-from legislature.models import MemopolRepresentative
-
+from votes.models import (RepresentativeVoteProfile,
+                          calculate_representative_score)
 
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
-        for rep in MemopolRepresentative.objects.all():
-            rep.update_score()
+        for profile in RepresentativeVoteProfile.objects.all():
+            profile.score = calculate_representative_score(
+                profile.representative)
+            profile.save()

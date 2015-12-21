@@ -4,79 +4,31 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 
-from core.utils import create_child_instance_from_parent
 from representatives_votes.contrib.parltrack.import_votes import \
     vote_pre_import
 from representatives_votes.models import Dossier, Proposal, Vote
+from representatives.models import Representative
+
+
+class RepresentativeVoteProfile(models.Model):
+    representative = models.OneToOneField('representatives.representative',
+        primary_key=True, related_name='votes_profile')
+    score = models.IntegerField(default=0)
 
 
 class Recommendation(models.Model):
-    SCORE_TABLE = {
-        ('abstain', 'abstain'): 1,
-        ('abstain', 'for'): -0.5,
-        ('abstain', 'against'): -0.5,
-    }
-
-    VOTECHOICES = (
-        ('abstain', 'abstain'),
-        ('for', 'for'),
-        ('against', 'against')
-    )
-
     proposal = models.OneToOneField(
         Proposal,
         related_name='recommendation'
     )
 
-    recommendation = models.CharField(max_length=10, choices=VOTECHOICES)
+    recommendation = models.CharField(max_length=10, choices=Vote.VOTECHOICES)
     title = models.CharField(max_length=1000, blank=True)
     description = models.TextField(blank=True)
     weight = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['proposal__datetime']
-
-
-class MemopolDossier(Dossier):
-    dossier_reference = models.CharField(max_length=200)
-    name = models.CharField(max_length=1000, blank=True, default='')
-    description = models.TextField(blank=True, default='')
-
-    def save(self, *args, **kwargs):
-        if not self.name:
-            self.name = self.dossier_ptr.title
-        return super(MemopolDossier, self).save(*args, **kwargs)
-
-    def __unicode__(self):
-        return self.name
-
-
-@receiver(post_save, sender=Dossier)
-def create_memopolrepresentative_from_representative(instance, **kwargs):
-    create_child_instance_from_parent(MemopolDossier, instance)
-
-
-class MemopolVote(Vote):
-
-    class Meta:
-        proxy = True
-
-    @cached_property
-    def absolute_score(self):
-        try:
-            recommendation = self.proposal.recommendation
-        except models.ObjectDoesNotExist:
-            # Recommendation was deleted
-            return 0
-
-        weight = recommendation.weight
-        if (self.position == 'abstain' or
-                recommendation.recommendation == 'abstain'):
-            weight = weight / 2
-        if self.position == recommendation.recommendation:
-            return weight
-        else:
-            return -weight
 
 
 def skip_votes(sender, vote_data=None, **kwargs):
@@ -90,3 +42,32 @@ def skip_votes(sender, vote_data=None, **kwargs):
     if vote_data.get('epref', None) not in dossiers:
         return False
 vote_pre_import.connect(skip_votes)
+
+
+def create_representative_vote_profile(sender, instance=None, created=None,
+        **kwargs):
+
+    if not created:
+        return
+
+    RepresentativeVoteProfile.objects.create(representative=instance)
+post_save.connect(create_representative_vote_profile, sender=Representative)
+
+
+def calculate_representative_score(representative):
+    score = 0
+
+    for vote in representative.votes.all():
+        try:
+            recommendation = Recommendation.objects.get(
+                proposal_id=vote.proposal_id)
+        except Recommendation.DoesNotExist:
+            # Catch an exception to avoid un-necessary queries
+            continue
+
+        if recommendation.recommendation == vote.position:
+            score += recommendation.weight
+        else:
+            score -= recommendation.weight
+
+    return score

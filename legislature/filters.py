@@ -40,4 +40,4 @@ class RepresentativeFilter(django_filters.FilterSet):
             'country__code': ['exact']
         }
 
-        order_by = ['score', 'full_name']
+        order_by = ['votes_profile__score', 'full_name']

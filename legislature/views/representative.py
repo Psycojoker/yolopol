@@ -1,28 +1,10 @@
 # coding: utf-8
 
-# This file is part of memopol.
-#
-# memopol is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as
-# published by the Free Software Foundation, either version 3 of
-# the License, or any later version.
-#
-# memopol is distributed in the hope that it will
-# be useful, but WITHOUT ANY WARRANTY; without even the implied
-# warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU General Affero Public
-# License along with django-representatives.
-# If not, see <http://www.gnu.org/licenses/>.
-#
-# Copyright (C) 2015 Arnaud Fabre <af@laquadrature.net>
-
 from __future__ import absolute_import
 
 from datetime import datetime
 
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from django.http import Http404
 from django.shortcuts import render
 from django.utils.text import slugify
@@ -30,19 +12,13 @@ from django.utils.text import slugify
 from core.utils import render_paginate_list
 from positions.forms import PositionForm
 
-from ..models import MemopolRepresentative
+from representatives.models import Representative
 
 
 def index(request, group_kind=None, group=None):
 
     # Fetch active representatives
-    representative_list = MemopolRepresentative.objects.select_related(
-        'country',
-        'main_mandate',
-        'main_mandate__group',
-    ).filter(
-        active=True
-    )
+    representative_list = Representative.objects.filter(active=True)
 
     # Filter the list by group if group information is provided
     if group_kind:
@@ -64,13 +40,17 @@ def index(request, group_kind=None, group=None):
     representative_list = _filter_by_search(
         request,
         representative_list
-    ).order_by('-score', 'last_name')
+    ).order_by('-votes_profile__score', 'last_name')
 
     # Grid or list
     if request.GET.get('display') in ('grid', 'list'):
         request.session['display'] = request.GET.get('display')
     if 'display' not in request.session:
         request.session['display'] = 'grid'
+
+    representative_list = representative_list.select_related('votes_profile')
+    representative_list = Representative.objects.prefetch_profile(
+        representative_list)
 
     # Render the paginated template
     return render_paginate_list(
@@ -83,14 +63,14 @@ def index(request, group_kind=None, group=None):
 
 
 def detail(request, name=None):
-    query_set = MemopolRepresentative.objects.select_related(
+    query_set = Representative.objects.select_related(
         'country',
         'main_mandate'
     )
 
     try:
         representative = query_set.get(slug=name)
-    except MemopolRepresentative.DoesNotExist:
+    except Representative.DoesNotExist:
         return Http404()
 
     position_form = PositionForm()
