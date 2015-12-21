@@ -147,6 +147,8 @@ if 'OPENSHIFT_POSTGRESQL_DB_HOST' in os.environ:
     DATABASES['default']['PORT'] = os.environ['OPENSHIFT_POSTGRESQL_DB_PORT']
     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
+FIXTURES_DIRS = [os.path.join(BASE_DIR, 'fixtures')]
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 

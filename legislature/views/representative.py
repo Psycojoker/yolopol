@@ -63,7 +63,7 @@ def index(request, group_kind=None, group=None):
 
 
 def detail(request, name=None):
-    query_set = Representative.objects.all()
+    query_set = Representative.objects.select_related('votes_profile')
     query_set = Representative.objects.prefetch_profile(query_set)
 
     try:
@@ -71,12 +71,19 @@ def detail(request, name=None):
     except Representative.DoesNotExist:
         return Http404()
 
+    votes = representative.votes.select_related('proposal__recommendation').distinct()
+    mandates = representative.mandates.all()
+    positions = representative.positions.filter(published=True).prefetch_related('tags')
+
     position_form = PositionForm()
     return render(
         request,
         'legislature/representative_detail.html',
         {
             'representative': representative,
+            'votes': votes,
+            'mandates': mandates,
+            'positions': positions,
             'position_form': position_form
         }
     )

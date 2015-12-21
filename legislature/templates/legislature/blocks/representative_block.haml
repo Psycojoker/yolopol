@@ -3,12 +3,12 @@
 
 .representative
 
-  %h1.name
+  %h1.name<
     ={representative.full_name}
 
   .row
     .col-md-4
-      %p.photo
+      %p.photo<
         %img{:src => "{{ representative.photo }}"}/
 
     .col-md-8
@@ -19,17 +19,17 @@
             = representative.votes_profile.score|score_label
         %tr
           %th Country
-          %td
+          %td<
             = representative.get_country|country_flag
         %tr
           %th Party
-          %td
+          %td<
             %a{:href => "{{ representative.get_current_mandate|by_group_url }}"}
               {{ representative.get_current_mandate.role }} of
               {{ representative.get_current_mandate.group.name }}
         %tr
           %th Biography
-          %td
+          %td<
             Born in {{ representative.birth_place }} the
             {{ representative.birth_date|naturalday:'d/m/Y' }}
             ({{ representative.get_gender_display }})

@@ -26,7 +26,7 @@
           %th.icon-cell
             Score
 
-        - for vote in representative.votes_with_proposal.all
+        - for vote in votes
           %tr
             %td= vote.proposal.recommendation.title
             %td.icon-cell
@@ -40,7 +40,7 @@
   %h2 Mandates
 
   %table.table.table-condensed.mandates
-    - for mandate in representative.active_mandates
+    - for mandate in mandates
       %tr.mandate
         %td= mandate.role
         %td
@@ -54,7 +54,7 @@
     %h2 Public positions
 
     %table.table.table-condensed
-      - for position in representative.positions.published.all
+      - for position in positions
         %tr.position
           %td= position.datetime|naturalday:'d/m/Y'
           %td

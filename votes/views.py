@@ -28,7 +28,7 @@ from representatives_votes.models import Dossier
 
 
 def dossier_index(request):
-    dossier_list = MemopolDossier.objects.all()
+    dossier_list = Dossier.objects.all()
 
     return render_paginate_list(
         request,
@@ -38,7 +38,7 @@ def dossier_index(request):
 
 
 def dossier_detail(request, pk):
-    dossier = get_object_or_404(MemopolDossier, pk=pk)
+    dossier = get_object_or_404(Dossier, pk=pk)
 
     return render(
         request,
