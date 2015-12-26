@@ -1,42 +1,53 @@
 - extends 'base.html'
 
-- load representatives_extras
+- load i18n
+- load positions_tags
 
 - block content
 
-  - include 'legislature/search.html'
+  - block search
+
+    %form{action:'', method:'get'}
+      %label{for:'search'}
+        - trans 'Search'
+      %input{id:"search", type:"text", name:"search"}
+      %input{type:"submit", value:"Go"}
+
   - include 'core/blocks/pagination.html'
 
-  %table.table
-    %tr
-      %th
-        Photo
-      %th
-        Name
-      %th
-        Country
-      %th
-        Group
-      %th
-        Score
-    - for representative in object_list
+  - block list
+
+    %table.table
       %tr
-        %td
-          %a{'href': "{% url 'legislature:representative-detail' name=representative.slug %}"}
-            %img{'src': '={representative.photo}', 'width': '80'}/
+        %th
+          - trans 'Photo'
+        %th
+          - trans 'Name'
+        %th
+          - trans 'Country'
+        %th
+          - trans 'Group'
+        %th
+          - trans 'Score'
 
-        %td
-          %a{'href': "{% url 'legislature:representative-detail' name=representative.slug %}"}
-            = representative.full_name
+      - for representative in object_list
+        %tr
+          %td
+            %a{'href': "{{ representative.get_absolute_url }}"}
+              %img{'src': '={representative.photo}', 'width': '80'}/
 
-        %td
-          %a{'href': "{% url 'legislature:representative-index' group_kind='country' group=representative.get_country.country.code %}"}
-            = representative.get_country|country_flag
+          %td
+            %a{'href': "{{ representative.get_absolute_url }}"}
+              = representative.full_name
 
-        %td
-          %a{'href': "{{ representative.main_mandate|by_group_url }}"}
-            = representative.get_current_mandate.group.abbreviation
-        %td
-          = representative.get_score|score_label
+          %td
+            %a{'href': "{% url 'positions:representative-list' group_kind='country' group=representative.get_country.country.code %}"}
+              = representative.get_country
 
-  - include "core/blocks/pagination.html"
+          %td
+            %a{'href': "{{ representative.main_mandate|by_group_url }}"}
+              = representative.get_current_mandate.group.abbreviation
+          %td
+            = representative.get_score|score_label
+
+  - include 'core/blocks/pagination.html'

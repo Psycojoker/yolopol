@@ -8,6 +8,8 @@ from positions.models import Position
 
 
 class PositionTest(TestCase):
+    create_url = '/position/create/'
+
     def setUp(self):
         self.client = Client()
         self.tags = [u'foo', u'bar']
@@ -24,8 +26,9 @@ class PositionTest(TestCase):
         }
 
     def test_create_position(self):
-        response = self.client.post('/positions/create', self.fixture)
-        expected = 'http://testserver/legislature/slug'
+        response = self.client.post(self.create_url, self.fixture)
+        assert response.status_code == 302
+        expected = 'http://testserver/representative/slug/'
         assert response['Location'] == expected
 
         result = Position.objects.get(text='%stext' % self.id())
@@ -36,7 +39,8 @@ class PositionTest(TestCase):
         assert result.published is False
 
     def test_position_publishing(self):
-        self.client.post('/positions/create', self.fixture)
+        response = self.client.post(self.create_url, self.fixture)
+        assert response.status_code == 302
         position = Position.objects.get(text='%stext' % self.id())
 
         get_response = self.client.get(position.get_absolute_url())
@@ -53,8 +57,9 @@ class PositionTest(TestCase):
             fixture = copy.copy(self.fixture)
             fixture.pop(key)
 
-            response = self.client.post('/positions/create', fixture)
-            assert response.context['form'].is_valid() is False
+            response = self.client.post(self.create_url, fixture)
+            assert response.context['form'].is_valid() is False, \
+                'Could submit form without %s' % key
 
     def test_position_detail(self):
         fixture = copy.copy(self.fixture)
@@ -71,3 +76,9 @@ class PositionTest(TestCase):
         assert fixture['link'] in response.content
         assert fixture['text'] in response.content
         assert self.mep.full_name in response.content
+
+# group-index(kind)
+# redisplayative-detail(name)
+# redisplayative-detail(pk)
+# redisplayative-index(group_kind)(group)
+# redisplayative-index(active)

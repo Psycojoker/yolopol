@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
-from votes.models import (RepresentativeVoteProfile,
-                          calculate_representative_score)
+from positions.models import (RepresentativeVoteProfile,
+                              calculate_representative_score)
 
 class Command(BaseCommand):
     def handle(self, *args, **options):

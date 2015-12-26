@@ -90,8 +90,6 @@ INSTALLED_APPS = (
     'core',
     'representatives',
     'representatives_votes',
-    'legislature',
-    'votes',
     'positions',
 )
 
@@ -182,6 +180,7 @@ if PUBLIC_DIR:
 
 # HAML Templates
 # https://github.com/jessemiller/hamlpy
+HAMLPY_ATTR_WRAPPER = '"'
 
 TEMPLATE_DIRS = (
     'core/templates',

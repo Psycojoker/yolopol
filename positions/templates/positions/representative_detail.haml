@@ -3,7 +3,7 @@
 - extends 'base.html'
 
 - load humanize
-- load representatives_extras
+- load positions_tags
 - load bootstrap3
 
 - block head
@@ -12,7 +12,7 @@
 - block content
   .row
     .col-md-6
-      - include 'legislature/blocks/representative_block.html' with representative=representative
+      - include 'positions/blocks/representative_block.html' with representative=representative
     .col-md-6
       %h2#votes Votes
 
@@ -45,7 +45,9 @@
         %td= mandate.role
         %td
           %a{:href => "{{ mandate|by_group_url }}"}
-            {{ mandate.group.name }} ({{ mandate.group.abbreviation }})
+            {{ mandate.group.name }}
+            - if mandate.group.abbreviation
+              {{ mandate.group.abbreviation }}
         %td= mandate.begin_date|mandate_date:'d/m/Y'
         %td= mandate.end_date|mandate_date:'d/m/Y'
         %td= mandate.constituency.name

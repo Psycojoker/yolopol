@@ -1,29 +1,24 @@
-- extends 'base.html'
+- extends 'positions/representative_list.html'
 
-- load representatives_extras
+- load positions_tags
 
-- block content
-
-  - include 'legislature/search.html'
-  - include "core/blocks/pagination.html"
+- block list
 
   .representative_grid
     - for representative in object_list
       .representative_item
         %p.photo
-          %a{'href': "{% url 'legislature:representative-detail' name=representative.slug %}"}
+          %a{'href': "{{ representative.get_absolute_url }}"}
             %img{'src': '={representative.photo}', 'width': '80'}/
         %ul
           %li.name
-            %a{'href': "{% url 'legislature:representative-detail' name=representative.slug %}"}
+            %a{'href': "{{ representative.get_absolute_url }}"}
               = representative.full_name
           %li.country
-            %a{'href': "{% url 'legislature:representative-index' group_kind='country' group=representative.get_country.code %}"}
+            %a{'href': "{% url 'positions:representative-list' group_kind='country' group=representative.get_country.code %}"}
               = representative.get_country|country_flag
           %li.mandate
             %a{'href': "{{ representative.main_mandate|by_group_url }}"}
               = representative.main_mandate.group.abbreviation
           %li.score
             = representative.votes_profile.score|score_label
-
-  - include "core/blocks/pagination.html"
