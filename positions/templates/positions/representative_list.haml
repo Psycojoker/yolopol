@@ -41,12 +41,12 @@
               = representative.full_name
 
           %td
-            %a{'href': "{% url 'positions:representative-list' group_kind='country' group=representative.get_country.country.code %}"}
-              = representative.get_country
+            %a{'href': "{% url 'positions:representative-list' group_kind='country' group=representative.country.country.code %}"}
+              = representative.country
 
           %td
             %a{'href': "{{ representative.main_mandate|by_group_url }}"}
-              = representative.get_current_mandate.group.abbreviation
+              = representative.main_mandate.group.abbreviation
           %td
             = representative.get_score|score_label
 

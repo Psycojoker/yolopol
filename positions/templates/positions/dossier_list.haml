@@ -9,7 +9,7 @@
     - for dossier in object_list
       %tr
         %td
-          %a{'href': "{% url 'votes:dossier-detail' pk=dossier.id %}"}
+          %a{'href': "{% url 'positions:dossier-detail' pk=dossier.pk %}"}
             {{ dossier.name }}
         %td= dossier.reference
         %td= dossier.proposals.count

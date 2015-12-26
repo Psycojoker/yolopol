@@ -11,6 +11,7 @@ from django import shortcuts
 from django.db import models
 from django.utils.text import slugify
 
+from representatives.views import RepresentativeViewMixin
 from representatives.models import Group
 from representatives_votes.models import Dossier
 
@@ -30,19 +31,43 @@ class PaginationMixin(object):
             self.request.session['paginate_by'] = 12
         return self.request.session['paginate_by']
 
+    def get_page_range(self, page):
+        pages = []
+
+        if page.paginator.num_pages != 1:
+            for i in page.paginator.page_range:
+                if page.number - 4 < i < page.number + 4:
+                    pages.append(i)
+
+        return pages
+
     def get_context_data(self, **kwargs):
         c = super(PaginationMixin, self).get_context_data(**kwargs)
         c['pagination_limits'] = self.pagination_limits
+        c['paginate_by'] = self.request.session['paginate_by']
+        c['page_range'] = self.get_page_range(c['page_obj'])
         return c
 
 
-class RepresentativeList(PaginationMixin, generic.ListView):
+class RepresentativeList(RepresentativeViewMixin, PaginationMixin,
+        generic.ListView):
+
     def set_session_display(self):
         if self.request.GET.get('display') in ('grid', 'list'):
             self.request.session['display'] = self.request.GET.get('display')
 
         if 'display' not in self.request.session:
             self.request.session['display'] = 'grid'
+
+    def get_context_data(self, **kwargs):
+        c = super(RepresentativeList, self).get_context_data(**kwargs)
+
+        c['object_list'] = [
+            self.add_representative_country_and_main_mandate(r)
+            for r in c['object_list']
+        ]
+
+        return c
 
     def get(self, *args, **kwargs):
         self.set_session_display()
@@ -80,31 +105,34 @@ class RepresentativeList(PaginationMixin, generic.ListView):
                 )
         return qs
 
-    def fetch_relations(self, qs):
+    def prefetch_related(self, qs):
         qs = qs.select_related('votes_profile')
-        qs = PositionsRepresentative.objects.prefetch_profile(qs)
+        qs = self.prefetch_for_representative_country_and_main_mandate(qs)
         return qs
 
     def get_queryset(self):
         qs = PositionsRepresentative.objects.filter(active=True)
         qs = self.group_filter(qs)
         qs = self.search_filter(qs)
-        qs = self.fetch_relations(qs)
+        qs = self.prefetch_related(qs)
         return qs
 
 
-class RepresentativeDetail(generic.DetailView):
+class RepresentativeDetail(RepresentativeViewMixin, generic.DetailView):
     template_name = 'positions/representative_detail.html'
     context_object_name = 'representative'
 
-    def get_queryset(request):
+    def get_queryset(self):
         qs = PositionsRepresentative.objects.select_related('votes_profile')
-        qs = PositionsRepresentative.objects.prefetch_profile(qs)
-        qs = PositionsRepresentative.objects.prefetch_votes(qs)
+        qs = self.prefetch_for_representative_country_and_main_mandate(qs)
+        votes = PositionsVote.objects.select_related('proposal__recommendation')
+        qs = qs.prefetch_related(models.Prefetch('votes', queryset=votes))
         return qs
 
     def get_context_data(self, **kwargs):
         c = super(RepresentativeDetail, self).get_context_data(**kwargs)
+
+        self.add_representative_country_and_main_mandate(c['object'])
 
         c['votes'] = c['object'].votes.all()
         c['mandates'] = c['object'].mandates.all()
@@ -117,44 +145,29 @@ class RepresentativeDetail(generic.DetailView):
 
 
 class DossierList(PaginationMixin, generic.ListView):
-    def dossier_index(request):
-        dossier_list = Dossier.objects.all()
-
-        return render_paginate_list(
-            request,
-            dossier_list,
-            'votes/dossier_index.html'
-        )
+    queryset = Dossier.objects.exclude(proposals__recommendation=None)
+    template_name = 'positions/dossier_list.html'
 
 
 class DossierDetail(PaginationMixin, generic.DetailView):
-    def dossier_detail(request, pk):
-        dossier = get_object_or_404(Dossier, pk=pk)
-
-        return render(
-            request,
-            'votes/dossier_detail.html',
-            {'dossier': dossier}
-        )
+    queryset = Dossier.objects.all()
+    template_name = 'positions/dossier_detail.html'
 
 
 class GroupList(generic.ListView):
-    def group_index(request, kind=None):
-        groups = Group.objects.filter(
+    template_name = 'positions/groups_list.html'
+    context_object_name = 'groups'
+
+    def get_queryset(self):
+        qs = Group.objects.filter(
             mandates__end_date__gte=datetime.now()
         )
 
+        kind = self.kwargs.get('kind', None)
         if kind:
-            groups = groups.filter(
-                kind=kind
-            )
+            qs = qs.filter(kind=kind).distinct()
 
-        groups = groups.distinct().order_by('name')
-        return render(
-            request,
-            'legislature/groups_list.html',
-            {'groups': groups}
-        )
+        return qs
 
 
 class PositionCreate(generic.CreateView):

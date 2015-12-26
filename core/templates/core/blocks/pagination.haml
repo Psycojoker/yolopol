@@ -1,16 +1,19 @@
-- load core_tags
-
 .pagination-block
 
   %nav
     %ul.pagination.pagination-sm
       - if page_obj.has_previous
         %li
+          %a{'href': '?={queries.urlencode}&page=1',
+             'aria-label': 'First'}
+            <i aria-hidden="true" class="fa fa-chevron-circle-left"></i>
+
+        %li
           %a{'href': '?={queries.urlencode}&page=={page_obj.previous_page_number}',
              'aria-label': 'Previous'}
             <i aria-hidden="true" class="fa fa-chevron-left"></i>
 
-      - for p in page_obj|page_range
+      - for p in page_range
         - if p
           - if p == page_obj.number
             %li.active
@@ -20,16 +23,17 @@
             %li
               %a{'href': '?={queries.urlencode}&page=={p}'}
                 {{ p }}
-        - else
-          %li.disabled
-            %a{'href': ''}
-              …
 
       - if page_obj.has_next
         %li
           %a{'href': '?={queries.urlencode}&page=={page_obj.next_page_number}',
              'aria-label': 'Next'}
             <i aria-hidden="true" class="fa fa-chevron-right"></i>
+
+        %li
+          %a{'href': '?={queries.urlencode}&page=={page_obj.num_pages}',
+             'aria-label': 'Last'}
+            <i aria-hidden="true" class="fa fa-chevron-circle-right"></i>
 
   %div.count
     Number of results : {{ paginator.count }}

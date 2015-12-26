@@ -16,19 +16,10 @@ from taggit.managers import TaggableManager
 from representatives_votes.contrib.parltrack.import_votes import \
     vote_pre_import
 from representatives_votes.models import Dossier, Proposal, Vote
-from representatives.models import Representative, RepresentativeManager
-
-
-class PositionsRepresentativeManager(RepresentativeManager):
-    def prefetch_votes(self, queryset):
-        votes = PositionsVote.objects.select_related('proposal__recommendation')
-        return queryset.prefetch_related(
-            models.Prefetch('votes', queryset=votes))
+from representatives.models import Representative
 
 
 class PositionsRepresentative(Representative):
-    objects = PositionsRepresentativeManager()
-
     def get_absolute_url(self):
         return reverse('positions:representative-detail', args=(self.slug,))
 
