@@ -48,7 +48,7 @@ with open(SECRET_FILE, 'r') as f:
 
 DEBUG = os.environ.get('DJANGO_DEBUG', False)
 TEMPLATE_DEBUG = DEBUG
-LOG_LEVEL = os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
+LOG_LEVEL = os.environ.get('DJANGO_LOG_LEVEL', 'DEBUG' if DEBUG else 'INFO')
 
 if SECRET_KEY == 'notsecret' and not DEBUG:
     raise Exception('Please export DJANGO_SECRET_KEY or DEBUG')
