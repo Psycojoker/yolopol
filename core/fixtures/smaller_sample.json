@@ -22872,210 +22872,210 @@
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 3018
 },
 {
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 3472
 },
 {
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 160
 },
 {
     "fields": {
         "score": -15
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 2879
 },
 {
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 192
 },
 {
     "fields": {
         "score": -15
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 299
 },
 {
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 3279
 },
 {
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 3317
 },
 {
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 3065
 },
 {
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 296
 },
 {
     "fields": {
         "score": -15
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 327
 },
 {
     "fields": {
         "score": 15
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 391
 },
 {
     "fields": {
         "score": 15
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 392
 },
 {
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 401
 },
 {
     "fields": {
         "score": -15
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 402
 },
 {
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 404
 },
 {
     "fields": {
         "score": 15
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 3299
 },
 {
     "fields": {
         "score": 15
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 3474
 },
 {
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 3188
 },
 {
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 419
 },
 {
     "fields": {
         "score": 15
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 2944
 },
 {
     "fields": {
         "score": 15
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 3158
 },
 {
     "fields": {
         "score": 15
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 435
 },
 {
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 2958
 },
 {
     "fields": {
         "score": 15
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 2965
 },
 {
     "fields": {
         "score": 15
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 439
 },
 {
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 2999
 },
 {
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 3155
 },
 {
     "fields": {
         "score": 5
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 411
 },
 {
     "fields": {
         "score": 15
     },
-    "model": "positions.representativevoteprofile",
+    "model": "positions.score",
     "pk": 3152
 },
 {

@@ -90,7 +90,8 @@ INSTALLED_APPS = (
     'core',
     'representatives',
     'representatives_votes',
-    'positions',
+    'representatives_recommendations',
+    'representatives_positions',
 )
 
 if DEBUG:
@@ -182,9 +183,7 @@ if PUBLIC_DIR:
 # https://github.com/jessemiller/hamlpy
 HAMLPY_ATTR_WRAPPER = '"'
 
-TEMPLATE_DIRS = (
-    'core/templates',
-)
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -272,6 +271,7 @@ if DEBUG:
         'class': 'logging.FileHandler',
         'filename': os.path.join(LOG_DIR, 'debug.log'),
     }
+
     for logger in LOGGING['loggers'].values():
         logger['handlers'].append('debug')
 

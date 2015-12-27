@@ -47,4 +47,5 @@
       - if not forloop.last
         \/
     )
-    - include 'core/blocks/grid-list.html'
+    - if grid_list
+      - include 'core/blocks/grid-list.html'

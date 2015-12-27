@@ -572,7 +572,7 @@
     "fields": {
         "score": 15
     },
-    "model": "positions.representativevoteprofile",
+    "model": "representatives_recommendations.representativescore",
     "pk": 3090
 },
 {
@@ -583,7 +583,7 @@
         "weight": 4,
         "recommendation": "for"
     },
-    "model": "positions.recommendation",
+    "model": "representatives_recommendations.recommendation",
     "pk": 3424
 },
 {
@@ -594,7 +594,7 @@
         "weight": 6,
         "recommendation": "for"
     },
-    "model": "positions.recommendation",
+    "model": "representatives_recommendations.recommendation",
     "pk": 3425
 },
 {
@@ -605,7 +605,7 @@
         "weight": 5,
         "recommendation": "for"
     },
-    "model": "positions.recommendation",
+    "model": "representatives_recommendations.recommendation",
     "pk": 3426
 },
 {
@@ -616,7 +616,7 @@
         "representative": 3090,
         "datetime": "2015-11-30"
     },
-    "model": "positions.position",
+    "model": "representatives_scores.position",
     "pk": 1
 },
 {
@@ -627,7 +627,7 @@
         "representative": 3090,
         "datetime": "2015-12-08"
     },
-    "model": "positions.position",
+    "model": "representatives_scores.position",
     "pk": 2
 },
 {
@@ -638,13 +638,13 @@
         "representative": 3090,
         "datetime": "2015-12-07"
     },
-    "model": "positions.position",
+    "model": "representatives_scores.position",
     "pk": 3
 },
 {
     "fields": {
         "model": "position",
-        "app_label": "positions"
+        "app_label": "representatives_scores"
     },
     "model": "contenttypes.contenttype",
     "pk": 25
