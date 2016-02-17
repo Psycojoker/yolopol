@@ -93,6 +93,7 @@ INSTALLED_APPS = (
     'memopol',
     'representatives',
     'representatives_votes',
+    'representatives_votes.contrib.parltrack',
     'representatives_recommendations',
     'representatives_positions',
     'campaign',
