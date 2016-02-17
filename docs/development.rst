@@ -150,3 +150,16 @@ Or actual data (takes a while)::
     $ bin/update_all
 
 Continue to :doc:`administration`.
+
+Run a background worker
+=======================
+
+A background worker is needed for the campaign system, to synchronize Dossiers
+selected in Campaigns in background, so that the admin doesn't see a page that
+times-out if the upstream source is down for example. Start a redis server, and
+run a background worker as such::
+
+    $ ./manage.py rqworker default
+
+To see background jobs in the admin, authenticate as staff and open the
+``/rq/`` URL.
