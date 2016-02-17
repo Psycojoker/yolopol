@@ -85,6 +85,7 @@ INSTALLED_APPS = (
     'bootstrap3',
     'datetimewidget',
     'django_filters',
+    'django_rq',
     'rest_framework',
     'taggit',
     # ---
@@ -94,7 +95,18 @@ INSTALLED_APPS = (
     'representatives_votes',
     'representatives_recommendations',
     'representatives_positions',
+    'campaign',
 )
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+        'PASSWORD': os.environ.get('REDIS_PASSWORD', ''),
+        'DEFAULT_TIMEOUT': 360,
+    },
+}
 
 if DEBUG:
     try:
