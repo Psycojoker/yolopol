@@ -28,6 +28,7 @@ urlpatterns = [
     ),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^rq/', include('django_rq.urls')),
     url(r'^legislature/', include('representatives.urls',
         namespace='representatives')),
     url(r'^votes/', include('representatives_votes.urls',
