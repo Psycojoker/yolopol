@@ -11,6 +11,12 @@ from representatives_positions.models import Position
 class PositionTest(TestCase):
     fixtures = ['one_representative']
 
+    @classmethod
+    def setUpClass(cls):
+        from django.contrib.contenttypes.models import ContentType
+        ContentType.objects.all().delete()
+        super(PositionTest, cls).setUpClass()
+
     def setUp(self):
         self.client = Client()
         self.tags = [u'foo', u'bar']
