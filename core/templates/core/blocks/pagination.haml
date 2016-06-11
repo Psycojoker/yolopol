@@ -5,13 +5,15 @@
       - if page_obj.has_previous
         %li
           %a{'href': '?={queries.urlencode}&page=1',
-             'aria-label': 'First'}
-            <i aria-hidden="true" class="fa fa-angle-double-left"></i>
+             'aria-label': 'First page',
+             'title': 'First page'}
+            %i.fa.fa-angle-double-left{'aria-hidden': 'true'}
 
         %li
           %a{'href': '?={queries.urlencode}&page=={page_obj.previous_page_number}',
-             'aria-label': 'Previous'}
-            <i aria-hidden="true" class="fa fa-angle-left"></i>
+             'aria-label': 'Previous page',
+             'title': 'Previous page'}
+            %i.fa.fa-angle-left{'aria-hidden': 'true'}
 
       - for p in page_range
         - if p
@@ -27,13 +29,21 @@
       - if page_obj.has_next
         %li
           %a{'href': '?={queries.urlencode}&page=={page_obj.next_page_number}',
-             'aria-label': 'Next'}
-            <i aria-hidden="true" class="fa fa-angle-right"></i>
+             'aria-label': 'Next page',
+             'title': 'Next page'}
+            %i.fa.fa-angle-right{'aria-hidden': 'true'}
 
         %li
           %a{'href': '?={queries.urlencode}&page=={paginator.num_pages}',
-             'aria-label': 'Last'}
-            <i aria-hidden="true" class="fa fa-angle-double-right"></i>
+             'aria-label': 'Last page',
+             'title': 'Last page'}
+            %i.fa.fa-angle-double-right{'aria-hidden': 'true'}
+
+      %li
+        %a{'href': 'javascript:selectPage("={queries.urlencode}", ={page_obj.number}, ={paginator.num_pages}, "Go to page")',
+           'aria-label': 'Go to page',
+           'title': 'Go to page'}
+          %i.fa.fa-ellipsis-h{'aria-hidden': 'true'}
 
   %div.count
     Number of results : {{ paginator.count }}
