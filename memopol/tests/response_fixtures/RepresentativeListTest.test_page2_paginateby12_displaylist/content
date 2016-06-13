@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/static/collected/libs/bootstrap/dist/css/bootstrap.min.css" type="text/css" /><link rel="stylesheet" href="/static/collected/libs/fontawesome/css/font-awesome.min.css" type="text/css" /><link rel="stylesheet" href="/static/collected/libs/flag-icon-css/css/flag-icon.min.css" type="text/css" /><link rel="stylesheet" href="/static/collected/CACHE/css/base.6cb1be2fbcdd.css" type="text/css" />
     <script type="text/javascript" src="/static/collected/libs/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="/static/collected/libs/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="/static/collected/memopol.js"></script>
     
   </head>
   <body >
@@ -101,15 +102,13 @@
     <ul class='pagination pagination-sm'>
       
         <li>
-          <a aria-label='First' href='?&page=1'>
-            <i aria-hidden="true" class="fa fa-chevron-circle-left"></i>
-
+          <a aria-label='First page' href='?&page=1' title='First page'>
+            <i class='fa fa-angle-double-left' aria-hidden='true'></i>
           </a>
         </li>
         <li>
-          <a aria-label='Previous' href='?&page=1'>
-            <i aria-hidden="true" class="fa fa-chevron-left"></i>
-
+          <a aria-label='Previous page' href='?&page=1' title='Previous page'>
+            <i class='fa fa-angle-left' aria-hidden='true'></i>
           </a>
         </li>
       
@@ -148,18 +147,21 @@
       
       
         <li>
-          <a aria-label='Next' href='?&page=3'>
-            <i aria-hidden="true" class="fa fa-chevron-right"></i>
-
+          <a aria-label='Next page' href='?&page=3' title='Next page'>
+            <i class='fa fa-angle-right' aria-hidden='true'></i>
           </a>
         </li>
         <li>
-          <a aria-label='Last' href='?&page=3'>
-            <i aria-hidden="true" class="fa fa-chevron-circle-right"></i>
-
+          <a aria-label='Last page' href='?&page=3' title='Last page'>
+            <i class='fa fa-angle-double-right' aria-hidden='true'></i>
           </a>
         </li>
       
+      <li>
+        <a aria-label='Go to page' href='javascript:selectPage("", 2, 3, "Go to page")' title='Go to page'>
+          <i class='fa fa-ellipsis-h' aria-hidden='true'></i>
+        </a>
+      </li>
     </ul>
   </nav>
   <div class='count'>
@@ -679,15 +681,13 @@
     <ul class='pagination pagination-sm'>
       
         <li>
-          <a aria-label='First' href='?&page=1'>
-            <i aria-hidden="true" class="fa fa-chevron-circle-left"></i>
-
+          <a aria-label='First page' href='?&page=1' title='First page'>
+            <i class='fa fa-angle-double-left' aria-hidden='true'></i>
           </a>
         </li>
         <li>
-          <a aria-label='Previous' href='?&page=1'>
-            <i aria-hidden="true" class="fa fa-chevron-left"></i>
-
+          <a aria-label='Previous page' href='?&page=1' title='Previous page'>
+            <i class='fa fa-angle-left' aria-hidden='true'></i>
           </a>
         </li>
       
@@ -726,18 +726,21 @@
       
       
         <li>
-          <a aria-label='Next' href='?&page=3'>
-            <i aria-hidden="true" class="fa fa-chevron-right"></i>
-
+          <a aria-label='Next page' href='?&page=3' title='Next page'>
+            <i class='fa fa-angle-right' aria-hidden='true'></i>
           </a>
         </li>
         <li>
-          <a aria-label='Last' href='?&page=3'>
-            <i aria-hidden="true" class="fa fa-chevron-circle-right"></i>
-
+          <a aria-label='Last page' href='?&page=3' title='Last page'>
+            <i class='fa fa-angle-double-right' aria-hidden='true'></i>
           </a>
         </li>
       
+      <li>
+        <a aria-label='Go to page' href='javascript:selectPage("", 2, 3, "Go to page")' title='Go to page'>
+          <i class='fa fa-ellipsis-h' aria-hidden='true'></i>
+        </a>
+      </li>
     </ul>
   </nav>
   <div class='count'>
