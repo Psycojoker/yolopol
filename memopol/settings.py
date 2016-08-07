@@ -106,6 +106,20 @@ if DEBUG:
     else:
         INSTALLED_APPS += ('debug_toolbar',)
 
+    try:
+        import django_extensions  # noqa
+    except:
+        pass
+    else:
+        INSTALLED_APPS += ('django_extensions',)
+
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        }
+    }
+
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -186,8 +200,8 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-    'hamlpy.template.loaders.HamlPyFilesystemLoader',
-    'hamlpy.template.loaders.HamlPyAppDirectoriesLoader',
+    #'hamlpy.template.loaders.HamlPyFilesystemLoader',
+    #'hamlpy.template.loaders.HamlPyAppDirectoriesLoader',
 )
 
 """
@@ -201,6 +215,7 @@ TEMPLATE_LOADERS = (
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.template.context_processors.request',
+    'memopol.context_processors.search_form_options'
 )
 
 # Static files finders

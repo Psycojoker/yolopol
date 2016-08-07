@@ -1,31 +1,79 @@
-<!DOCTYPE html>
-<html class="no-js" lang="en"> <!--<![endif]-->
-  <head>
-    <meta charset="utf-8" />
+{% load cache %}{% load i18n %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <link rel="icon" type="image/png" href="{{ STATIC_URL }}img/favicon.ico" />
     <!-- Set the viewport width to device width for mobile -->
     <meta name="viewport" content="width=device-width" />
       <title>{% block title %}Home - Political Memory{% endblock %}</title>
+
     {% load compress %}
     {% load staticfiles %}
     {% compress css %}
     <link rel="stylesheet" href="{% static 'libs/bootstrap/dist/css/bootstrap.min.css' %}" type="text/css" />
     <link rel="stylesheet" href="{% static 'libs/fontawesome/css/font-awesome.min.css' %}" type="text/css" />
     <link rel="stylesheet" href="{% static 'libs/flag-icon-css/css/flag-icon.min.css' %}" type="text/css" />
-    <link rel="stylesheet" href="{% static 'scss/base.scss' %}" type="text/x-scss" />
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" type="text/css" />
     {% endcompress %}
+
     {% compress js %}
     <script type="text/javascript" src="{% static 'libs/jquery/dist/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'libs/bootstrap/dist/js/bootstrap.js' %}"></script>
     {% endcompress %}
     {% block head %}{% endblock %}
-  </head>
-  <body {% block bodyattrs %}{% endblock %}>
-    {% include "_header.html" %}
-    <div class="container-fluid main-container">
-      {% block content %}
-      {% endblock %}
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 custom-nav">
+            {% block sidebar %}
+                {% include '_base_intro.html' %}
+                <hr/>
+                {% get_current_language as LANGUAGE_CODE %}
+                {% cache 3600 LANGUAGE_CODE %} {# 1 hour #}
+                {% include '_base_search.html' %}
+                {% endcache %}
+                <hr />
+                <a href="{% url "representative-list" %}" class="btn btn-primary btn-block">
+                  {% trans "Check out all MEPs" %}</a>
+                <a href="{% url "dossier-list" %}" class="btn btn-primary btn-block">
+                  {% trans "Check out all Dossiers" %}</a>
+                <br />
+                {% include '_base_position.html' %}
+            {% endblock %}
+            </div>
+
+            <div class="col-sm-9 col-sm-offset-3 {% block container-class %}{% endblock %}">
+            {% block content %}
+            <div class="text-danger">This template is empty !</div>
+            {% endblock %}
+            </div>
+        </div>
     </div>
-    {% include "_footer.html" %}
-  </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/docs.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="./js/ie10-viewport-bug-workaround.js"></script>
+
+    {% include '_base_search_form_script.html' %}
+
+    <script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+    </script>
+</body>
 </html>

@@ -19,7 +19,6 @@ import api
 admin.autodiscover()
 
 urlpatterns = [
-    # Project-specific overrides
     url(
         r'^legislature/representative/(?P<group_kind>\w+)/(?P<chamber>.+)/' +
         r'(?P<group>.+)/$',
@@ -28,7 +27,7 @@ urlpatterns = [
     ),
     url(
         r'^legislature/representative/(?P<group_kind>\w+)/(?P<group>.+)/$',
-        RedirectGroupRepresentativeList.as_view(),
+        RepresentativeList.as_view(),
         name='representative-list'
     ),
     url(
@@ -95,6 +94,11 @@ urlpatterns = [
         r'^theme/(?P<slug>[-\w]+)/$',
         ThemeDetail.as_view(),
         name='theme-detail'
+    ),
+    url(
+        r'^votes/dossier/(?P<pk>\d+)/$',
+        DossierDetail.as_view(),
+        name='dossier-detail'
     ),
 
     url(r'^admin/', include(admin.site.urls)),
