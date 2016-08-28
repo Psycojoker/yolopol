@@ -2,12 +2,20 @@
 <html class="no-js" lang="en"> <!--<![endif]-->
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/png" href="{{ STATIC_URL }}img/favicon.ico" />
     <!-- Set the viewport width to device width for mobile -->
     <meta name="viewport" content="width=device-width" />
-      <title>{% block title %}Home - Political Memory{% endblock %}</title>
-    {% load compress %}
+    <title>{% block title %}Home - Political Memory{% endblock %}</title>
     {% load staticfiles %}
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'icons/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'icons/favicon-32x32.png' %}" sizes="32x32">
+    <link rel="icon" type="image/png" href="{% static 'icons/favicon-16x16.png' %}" sizes="16x16">
+    <link rel="manifest" href="{% static 'icons/manifest.json' %}">
+    <link rel="mask-icon" href="{% static 'icons/safari-pinned-tab.svg' %}" color="#5bbad5">
+    <link rel="shortcut icon" href="{% static 'icons/favicon.ico' %}">
+    <meta name="apple-mobile-web-app-title" content="memopol">
+    <meta name="application-name" content="memopol">
+    <meta name="msapplication-config" content="{% static 'icons/browserconfig.xml' %}">
+    {% load compress %}
     {% compress css %}
     <link rel="stylesheet" href="{% static 'libs/bootstrap/dist/css/bootstrap.min.css' %}" type="text/css" />
     <link rel="stylesheet" href="{% static 'libs/fontawesome/css/font-awesome.min.css' %}" type="text/css" />
